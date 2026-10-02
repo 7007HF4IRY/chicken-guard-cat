@@ -7,13 +7,65 @@
     <link rel="stylesheet" href="css/pixel.css" />
   </head>
   <body>
-    <div class="shell">
+    <div id="start-screen" class="start-screen">
+      <div class="start-panel">
+        <div class="title-plaque" aria-label="치킨 사수 냥이">
+          <img class="title-plaque-icon" src="img/icons/chicken.svg" width="28" height="28" alt="" />
+          <span class="title-plaque-text">치킨<br />사수 냥이</span>
+        </div>
+        <div class="start-hero">
+          <div class="sprite-stack start-sprite-stack">
+            <img class="box" src="img/box.png" alt="" width="1024" height="875" />
+            <img
+              id="start-cat"
+              class="cat"
+              src="img/tired.png"
+              alt=""
+              width="1024"
+              height="875"
+            />
+          </div>
+        </div>
+        <button type="button" class="btn btn-start" id="btn-go-mode">
+          게임 시작!
+        </button>
+      </div>
+    </div>
+
+    <div id="mode-screen" class="start-screen is-hidden" aria-hidden="true">
+      <div class="start-panel mode-panel">
+        <h2 class="mode-title">플레이 모드</h2>
+        <p class="mode-desc">어떻게 집사할까요?</p>
+        <button type="button" class="btn btn-mode" data-mode="choice">
+          <span class="mode-row">
+            <span>선택지 모드</span>
+            <span class="mode-diff">난이도 중!!</span>
+          </span>
+          <span class="mode-sub">4개 중 설득 1개 · 5턴 전부 맞춰야 성공</span>
+        </button>
+        <button type="button" class="btn btn-mode" data-mode="free">
+          <span class="mode-row">
+            <span>자유 채팅 모드</span>
+            <span class="mode-diff">난이도 상!!!</span>
+          </span>
+          <span class="mode-sub">말을 직접 쳐요 · AI 냥이</span>
+        </button>
+        <button type="button" class="btn btn-secondary btn-back" id="btn-back-start">
+          뒤로
+        </button>
+      </div>
+    </div>
+
+    <div id="game-shell" class="shell is-hidden" aria-hidden="true">
       <header class="title-bar">
         <h1>
           <img class="pix-icon" src="img/icons/chicken.svg" width="16" height="16" alt="" />
           치킨 사수 냥이
         </h1>
-        <p>5턴 설득! <span id="api-status" class="status-pill">확인 중…</span></p>
+        <p>
+          <span id="mode-label">모드</span>
+          <span id="api-status" class="status-pill">확인 중…</span>
+        </p>
       </header>
 
       <main class="layout">
@@ -40,7 +92,7 @@
           <div class="stats-grid">
             <div class="gauge-block">
               <div class="gauge-label">
-                <span>호감도</span>
+                <span>설득력</span>
                 <span class="num" id="favor-num">20</span>
               </div>
               <div class="dot-row" id="favor-dots" aria-hidden="true">
@@ -52,8 +104,8 @@
             </div>
             <div class="gauge-block">
               <div class="gauge-label">
-                <span>경계도</span>
-                <span class="num" id="sus-num">40</span>
+                <span>인내심</span>
+                <span class="num" id="sus-num">60</span>
               </div>
               <div class="dot-row" id="sus-dots" aria-hidden="true">
                 <div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -68,9 +120,9 @@
             <span>협상 턴</span>
             <strong id="turn-label">0 / 5</strong>
           </div>
-          <p class="hint">성공 80↑40↓ · 실패 90↑</p>
+          <p class="hint" id="game-hint">설득 80↑ · 인내심 60↑ · 실패 10↓</p>
 
-          <div class="input-dock">
+          <div class="input-dock" id="free-dock">
             <p id="player-last" class="player-last" hidden></p>
             <form id="chat-form" class="chat-form">
               <input
@@ -84,8 +136,13 @@
             </form>
           </div>
 
+          <div id="choice-dock" class="choice-dock is-hidden" aria-hidden="true">
+            <p class="choice-prompt">집사의 한 수를 고르세요</p>
+            <div id="choice-grid" class="choice-grid"></div>
+          </div>
+
           <button type="button" class="btn btn-secondary btn-reset" id="reset-btn">
-            다시
+            처음으로
           </button>
         </section>
       </main>
@@ -95,10 +152,11 @@
       <div class="modal">
         <h2 id="modal-title" class="modal-title-row"></h2>
         <p id="modal-body"></p>
-        <button type="button" class="btn" id="modal-btn">한 판 더</button>
+        <button type="button" class="btn" id="modal-btn">처음으로</button>
       </div>
     </div>
 
+    <script src="js/choices-data.js"></script>
     <script src="js/game.js"></script>
   </body>
 </html>

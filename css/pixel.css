@@ -5,8 +5,8 @@
 }
 
 :root {
-  --bg-check-a: #1a2744;
-  --bg-check-b: #152038;
+  --bg-check-a: #143322;
+  --bg-check-b: #0c2418;
   --panel: #f4e4c8;
   --panel-dark: #d4b896;
   --ink: #1a1208;
@@ -14,7 +14,7 @@
   --orange-light: #ffb060;
   --pink: #e85888;
   --teal: #48a8a0;
-  --shadow: #0a0810;
+  --shadow: #061408;
   --gauge-favor: #58c878;
   --gauge-sus: #e85050;
   --font: "PixelKo", monospace;
@@ -38,7 +38,7 @@ body {
   margin: 0;
   min-height: 100%;
   font-family: var(--font);
-  font-size: 12px;
+  font-size: 17px;
   line-height: 1.55;
   color: var(--ink);
   background: var(--bg-check-a);
@@ -63,6 +63,191 @@ body {
   image-rendering: pixelated;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
+.start-screen {
+  min-height: calc(100vh - 16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.start-panel {
+  width: 100%;
+  max-width: 420px;
+  background: var(--panel);
+  border: 4px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--shadow);
+  padding: 16px 14px 18px;
+  text-align: center;
+}
+
+.title-plaque {
+  display: inline-block;
+  margin: 0 auto 14px;
+  padding: 16px 24px 18px;
+  background: linear-gradient(180deg, #ffb060 0%, #e87830 55%, #d06020 100%);
+  border: 5px solid var(--ink);
+  box-shadow:
+    6px 6px 0 var(--shadow),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.15),
+    inset 0 3px 0 rgba(255, 255, 255, 0.25);
+  text-align: center;
+}
+
+.title-plaque-icon {
+  display: block;
+  margin: 0 auto 8px;
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+.title-plaque-text {
+  display: block;
+  font-size: 36px;
+  line-height: 1.15;
+  color: #fff8e8;
+  text-shadow: 3px 3px 0 var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.start-hero {
+  margin: 4px auto 14px;
+  width: 100%;
+  max-width: 300px;
+  min-height: 220px;
+  padding: 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a4a30;
+  border: 4px solid var(--ink);
+  box-shadow: inset 0 0 0 2px #0f2e1c;
+  overflow: visible;
+}
+
+.start-hero .start-sprite-stack {
+  flex: none;
+  width: 100%;
+  max-width: 252px;
+  margin: 10px 0 0;
+  transform: scale(1.14);
+  transform-origin: center bottom;
+}
+
+.btn-start {
+  width: 100%;
+  min-height: 52px;
+  font-size: 22px;
+  padding: 12px;
+}
+
+.mode-title {
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: normal;
+}
+
+.mode-desc {
+  margin: 0 0 14px;
+  font-size: 15px;
+}
+
+.btn-mode {
+  width: 100%;
+  min-height: 56px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  text-align: left;
+  padding: 10px 12px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.mode-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.mode-diff {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  color: #ff5058;
+  text-decoration: none;
+  -webkit-text-stroke: 0;
+  text-shadow:
+    -1px 0 0 var(--ink),
+    1px 0 0 var(--ink),
+    0 -1px 0 var(--ink),
+    0 1px 0 var(--ink);
+}
+
+.mode-sub {
+  display: block;
+  font-size: 13px;
+  font-weight: normal;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+.btn-back {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.choice-dock {
+  border: 3px solid var(--ink);
+  background: #ebe0cc;
+  padding: 8px;
+  margin-bottom: 6px;
+  box-shadow: inset 2px 2px 0 #d8ccb4;
+}
+
+.choice-prompt {
+  margin: 0 0 8px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.choice-btn {
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  min-height: 64px;
+  padding: 8px;
+  border: 2px solid var(--ink);
+  background: #fff8e8;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--shadow);
+  text-align: left;
+  word-break: keep-all;
+}
+
+.choice-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--shadow);
+}
+
+.choice-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .shell {
   max-width: 520px;
   margin: 0 auto;
@@ -75,7 +260,7 @@ body {
 
 .title-bar h1 {
   margin: 0;
-  font-size: 14px;
+  font-size: 19px;
   font-weight: normal;
   letter-spacing: 0;
   text-shadow: 2px 2px 0 var(--shadow);
@@ -84,8 +269,8 @@ body {
 
 .title-bar p {
   margin: 4px 0 0;
-  font-size: 10px;
-  color: var(--panel);
+  font-size: 15px;
+  color: #d8f0c8;
 }
 
 .layout {
@@ -101,10 +286,10 @@ body {
 
 .stage-wrap {
   padding: 6px 4px 4px;
-  background: #243050;
+  background: #1a4a30;
   border: 3px solid var(--ink);
   margin-bottom: 8px;
-  box-shadow: inset 0 0 0 2px #1a2038;
+  box-shadow: inset 0 0 0 2px #0f2e1c;
 }
 
 .stage-scene {
@@ -215,7 +400,7 @@ body {
 
 .cat-bubble p {
   margin: 0;
-  font-size: 11px;
+  font-size: 16px;
   word-break: keep-all;
 }
 
@@ -234,11 +419,11 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2px;
-  font-size: 10px;
+  font-size: 15px;
 }
 
 .gauge-label .num {
-  font-size: 12px;
+  font-size: 17px;
 }
 
 .dot-row {
@@ -264,13 +449,13 @@ body {
 .meta-row {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: 15px;
   padding-top: 4px;
   border-top: 2px dashed var(--ink);
 }
 
 .hint {
-  font-size: 9px;
+  font-size: 14px;
   margin: 4px 0 8px;
   opacity: 0.85;
 }
@@ -286,7 +471,7 @@ body {
 .player-last {
   margin: 0 0 4px;
   padding: 4px 6px;
-  font-size: 9px;
+  font-size: 14px;
   background: var(--teal);
   color: #fff;
   border: 2px solid var(--ink);
@@ -303,9 +488,9 @@ body {
 .chat-form input {
   flex: 1;
   font: inherit;
-  font-size: 11px;
+  font-size: 16px;
   padding: 6px 8px;
-  height: 32px;
+  height: 38px;
   border: 2px solid var(--ink);
   background: #fff;
   min-width: 0;
@@ -319,9 +504,9 @@ body {
 
 .btn {
   font: inherit;
-  font-size: 11px;
+  font-size: 16px;
   padding: 0 12px;
-  min-height: 32px;
+  min-height: 38px;
   border: 2px solid var(--ink);
   background: var(--orange);
   color: var(--ink);
@@ -346,8 +531,8 @@ body {
 
 .btn-reset {
   width: 100%;
-  min-height: 28px;
-  font-size: 10px;
+  min-height: 34px;
+  font-size: 15px;
 }
 
 .overlay {
@@ -377,19 +562,19 @@ body {
 
 .modal-title-row {
   margin: 0 0 8px;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: normal;
 }
 
 .modal p {
   margin: 0 0 12px;
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1.55;
 }
 
 .status-pill {
   display: inline-block;
-  font-size: 8px;
+  font-size: 13px;
   padding: 2px 4px;
   border: 2px solid var(--ink);
   background: #fff;
@@ -416,6 +601,6 @@ body {
   }
 
   .cat-bubble p {
-    font-size: 12px;
+    font-size: 17px;
   }
 }

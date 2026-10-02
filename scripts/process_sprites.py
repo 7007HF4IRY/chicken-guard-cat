@@ -1,35 +1,56 @@
 #!/usr/bin/env python3
 """검은 배경 제거 + 고양이를 박스 위에 앉은 위치로 정렬."""
+from collections import deque
 from pathlib import Path
 
 from PIL import Image
 
 IMG = Path(__file__).resolve().parent.parent / "img"
 THRESHOLD = 35
-FEATHER = 8
 CROP_TOP = 140
 CROP_BOTTOM = 1015
 SEAT_OVERLAP = 6  # 발바닥이 박스 윗면에 살짝 닿도록
 
 
-def remove_black(im: Image.Image) -> Image.Image:
+def _is_dark(r: int, g: int, b: int, threshold: int = THRESHOLD) -> bool:
+    return r <= threshold and g <= threshold and b <= threshold
+
+
+def remove_outer_black(im: Image.Image) -> Image.Image:
+    """가장자리와 연결된 검은 배경만 투명 처리 (눈·입 등 안쪽 검은색 유지)."""
     im = im.convert("RGBA")
-    px = im.load()
     w, h = im.size
+    px = im.load()
+    bg = [[False] * w for _ in range(h)]
+    q = deque()
+
+    def try_seed(x: int, y: int) -> None:
+        if 0 <= x < w and 0 <= y < h and not bg[y][x]:
+            r, g, b, _ = px[x, y]
+            if _is_dark(r, g, b):
+                bg[y][x] = True
+                q.append((x, y))
+
+    for x in range(w):
+        try_seed(x, 0)
+        try_seed(x, h - 1)
+    for y in range(h):
+        try_seed(0, y)
+        try_seed(w - 1, y)
+
+    while q:
+        x, y = q.popleft()
+        for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+            if 0 <= nx < w and 0 <= ny < h and not bg[ny][nx]:
+                r, g, b, _ = px[nx, ny]
+                if _is_dark(r, g, b):
+                    bg[ny][nx] = True
+                    q.append((nx, ny))
+
     for y in range(h):
         for x in range(w):
-            r, g, b, a = px[x, y]
-            if r <= THRESHOLD and g <= THRESHOLD and b <= THRESHOLD:
-                px[x, y] = (r, g, b, 0)
-            elif (
-                r <= THRESHOLD + FEATHER
-                and g <= THRESHOLD + FEATHER
-                and b <= THRESHOLD + FEATHER
-            ):
-                m = max(r, g, b)
-                alpha = int(255 * (m - THRESHOLD) / FEATHER)
-                alpha = max(0, min(255, alpha))
-                px[x, y] = (r, g, b, min(a, alpha))
+            if bg[y][x]:
+                px[x, y] = (0, 0, 0, 0)
     return im
 
 
@@ -69,7 +90,7 @@ def crop_stage(im: Image.Image) -> Image.Image:
 
 def main():
     box_path = IMG / "box.png"
-    box_full = remove_black(Image.open(box_path))
+    box_full = remove_outer_black(Image.open(box_path))
     seat_y = box_seat_y(box_full)
 
     for name in [
@@ -81,7 +102,7 @@ def main():
         "mad.png",
     ]:
         path = IMG / name
-        cat = remove_black(Image.open(path))
+        cat = remove_outer_black(Image.open(path))
         cat = align_cat_on_box(cat, seat_y)
         cat = crop_stage(cat)
         cat.save(path, "PNG")
