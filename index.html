@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>치킨 사수 냥이</title>
+    <link rel="stylesheet" href="css/pixel.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="title-bar">
+        <h1>
+          <img class="pix-icon" src="img/icons/chicken.svg" width="16" height="16" alt="" />
+          치킨 사수 냥이
+        </h1>
+        <p>5턴 설득! <span id="api-status" class="status-pill">확인 중…</span></p>
+      </header>
+
+      <main class="layout">
+        <section class="panel panel-main">
+          <div class="stage-wrap">
+            <div class="stage-scene">
+              <div class="sprite-stack">
+                <img class="box" src="img/box.png" alt="" width="1024" height="875" />
+                <img
+                  id="cat-sprite"
+                  class="cat"
+                  src="img/tired.png"
+                  alt="냥이"
+                  width="1024"
+                  height="875"
+                />
+              </div>
+              <div id="cat-bubble" class="cat-bubble" aria-live="polite">
+                <p id="cat-bubble-text"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="gauge-block">
+              <div class="gauge-label">
+                <span>호감도</span>
+                <span class="num" id="favor-num">20</span>
+              </div>
+              <div class="dot-row" id="favor-dots" aria-hidden="true">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+            </div>
+            <div class="gauge-block">
+              <div class="gauge-label">
+                <span>경계도</span>
+                <span class="num" id="sus-num">40</span>
+              </div>
+              <div class="dot-row" id="sus-dots" aria-hidden="true">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="meta-row">
+            <span>협상 턴</span>
+            <strong id="turn-label">0 / 5</strong>
+          </div>
+          <p class="hint">성공 80↑40↓ · 실패 90↑</p>
+
+          <div class="input-dock">
+            <p id="player-last" class="player-last" hidden></p>
+            <form id="chat-form" class="chat-form">
+              <input
+                id="chat-input"
+                type="text"
+                maxlength="80"
+                placeholder="집사 한마디"
+                autocomplete="off"
+              />
+              <button type="submit" class="btn" id="send-btn">▶</button>
+            </form>
+          </div>
+
+          <button type="button" class="btn btn-secondary btn-reset" id="reset-btn">
+            다시
+          </button>
+        </section>
+      </main>
+    </div>
+
+    <div id="overlay" class="overlay" role="dialog" aria-modal="true">
+      <div class="modal">
+        <h2 id="modal-title" class="modal-title-row"></h2>
+        <p id="modal-body"></p>
+        <button type="button" class="btn" id="modal-btn">한 판 더</button>
+      </div>
+    </div>
+
+    <script src="js/game.js"></script>
+  </body>
+</html>

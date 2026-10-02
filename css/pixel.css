@@ -1,0 +1,421 @@
+@font-face {
+  font-family: "PixelKo";
+  src: url("../fonts/pixel.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --bg-check-a: #1a2744;
+  --bg-check-b: #152038;
+  --panel: #f4e4c8;
+  --panel-dark: #d4b896;
+  --ink: #1a1208;
+  --orange: #e87830;
+  --orange-light: #ffb060;
+  --pink: #e85888;
+  --teal: #48a8a0;
+  --shadow: #0a0810;
+  --gauge-favor: #58c878;
+  --gauge-sus: #e85050;
+  --font: "PixelKo", monospace;
+  --px: 2px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--font);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--bg-check-a);
+  background-image:
+    linear-gradient(45deg, var(--bg-check-b) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--bg-check-b) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--bg-check-b) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--bg-check-b) 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  image-rendering: pixelated;
+}
+
+body {
+  padding: 8px;
+}
+
+.pix-icon {
+  display: inline-block;
+  vertical-align: -3px;
+  margin-right: 4px;
+  image-rendering: pixelated;
+}
+
+.shell {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.title-bar {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.title-bar h1 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0;
+  text-shadow: 2px 2px 0 var(--shadow);
+  color: var(--orange-light);
+}
+
+.title-bar p {
+  margin: 4px 0 0;
+  font-size: 10px;
+  color: var(--panel);
+}
+
+.layout {
+  display: block;
+}
+
+.panel {
+  background: var(--panel);
+  border: 4px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+  padding: 8px;
+}
+
+.stage-wrap {
+  padding: 6px 4px 4px;
+  background: #243050;
+  border: 3px solid var(--ink);
+  margin-bottom: 8px;
+  box-shadow: inset 0 0 0 2px #1a2038;
+}
+
+.stage-scene {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  min-height: 140px;
+}
+
+.sprite-stack {
+  position: relative;
+  flex: 0 0 48%;
+  max-width: 200px;
+  aspect-ratio: 1024 / 875;
+}
+
+.sprite-stack img {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.sprite-stack .box {
+  z-index: 1;
+}
+
+.sprite-stack .cat {
+  z-index: 2;
+  animation: breathe 1.2s steps(2) infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(18px);
+  }
+}
+
+/* 픽셀 말풍선 — 고양이 오른쪽 */
+.cat-bubble {
+  flex: 1;
+  min-width: 0;
+  align-self: center;
+  position: relative;
+  padding: 8px 8px 8px 10px;
+  background: #fff8e8;
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--shadow);
+  margin-bottom: 12px;
+  animation: bubble-pop 0.15s steps(2);
+}
+
+.cat-bubble.is-hidden {
+  display: none;
+}
+
+.cat-bubble.is-thinking p {
+  opacity: 0.55;
+  animation: blink 0.8s steps(2) infinite;
+}
+
+@keyframes bubble-pop {
+  from {
+    transform: scale(0.92);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.cat-bubble::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  bottom: 18px;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-right-color: var(--ink);
+}
+
+.cat-bubble::after {
+  content: "";
+  position: absolute;
+  left: -5px;
+  bottom: 20px;
+  width: 0;
+  height: 0;
+  border: 4px solid transparent;
+  border-right-color: #fff8e8;
+}
+
+.cat-bubble p {
+  margin: 0;
+  font-size: 11px;
+  word-break: keep-all;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.gauge-block {
+  margin: 0;
+}
+
+.gauge-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+
+.gauge-label .num {
+  font-size: 12px;
+}
+
+.dot-row {
+  display: flex;
+  gap: 2px;
+}
+
+.dot {
+  flex: 1;
+  height: 10px;
+  background: var(--panel-dark);
+  border: 2px solid var(--ink);
+}
+
+.dot.on-favor {
+  background: var(--gauge-favor);
+}
+
+.dot.on-sus {
+  background: var(--gauge-sus);
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  padding-top: 4px;
+  border-top: 2px dashed var(--ink);
+}
+
+.hint {
+  font-size: 9px;
+  margin: 4px 0 8px;
+  opacity: 0.85;
+}
+
+.input-dock {
+  border: 3px solid var(--ink);
+  background: #ebe0cc;
+  padding: 6px;
+  margin-bottom: 6px;
+  box-shadow: inset 2px 2px 0 #d8ccb4;
+}
+
+.player-last {
+  margin: 0 0 4px;
+  padding: 4px 6px;
+  font-size: 9px;
+  background: var(--teal);
+  color: #fff;
+  border: 2px solid var(--ink);
+  text-align: right;
+  word-break: break-all;
+}
+
+.chat-form {
+  display: flex;
+  gap: 4px;
+  align-items: stretch;
+}
+
+.chat-form input {
+  flex: 1;
+  font: inherit;
+  font-size: 11px;
+  padding: 6px 8px;
+  height: 32px;
+  border: 2px solid var(--ink);
+  background: #fff;
+  min-width: 0;
+  border-radius: 0;
+}
+
+.chat-form input:focus {
+  outline: 2px solid var(--orange);
+  outline-offset: 0;
+}
+
+.btn {
+  font: inherit;
+  font-size: 11px;
+  padding: 0 12px;
+  min-height: 32px;
+  border: 2px solid var(--ink);
+  background: var(--orange);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--shadow);
+  border-radius: 0;
+}
+
+.btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--shadow);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--panel-dark);
+}
+
+.btn-reset {
+  width: 100%;
+  min-height: 28px;
+  font-size: 10px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 16, 0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  z-index: 100;
+}
+
+.overlay.show {
+  display: flex;
+}
+
+.modal {
+  max-width: 320px;
+  width: 100%;
+  background: var(--panel);
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  padding: 12px;
+  text-align: center;
+}
+
+.modal-title-row {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.modal p {
+  margin: 0 0 12px;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.status-pill {
+  display: inline-block;
+  font-size: 8px;
+  padding: 2px 4px;
+  border: 2px solid var(--ink);
+  background: #fff;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.status-pill.offline {
+  background: #ffd0d0;
+}
+
+.status-pill.online {
+  background: #c8f0d0;
+}
+
+@media (min-width: 480px) {
+  .shell {
+    max-width: 560px;
+  }
+
+  .sprite-stack {
+    flex-basis: 52%;
+    max-width: 240px;
+  }
+
+  .cat-bubble p {
+    font-size: 12px;
+  }
+}

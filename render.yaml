@@ -1,0 +1,16 @@
+# Render Dashboard → New → Blueprint → 이 repo 연결 시 자동 생성
+services:
+  - type: web
+    name: chicken-guard-cat
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: INWORLD_MODEL
+        value: inworld/chicken_cat
+      - key: INWORLD_API_KEY
+        sync: false
