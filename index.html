@@ -2,7 +2,10 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>치킨 사수 냥이</title>
     <meta name="theme-color" content="#5a4030" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -10,37 +13,40 @@
     <link rel="stylesheet" href="css/pixel.css" />
   </head>
   <body>
-    <button
-      type="button"
-      id="btn-bgm"
-      class="bgm-toggle"
-      aria-label="BGM 끄기"
-      aria-pressed="false"
-      title="BGM"
-    >
-      <span class="bgm-toggle-icon" aria-hidden="true">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          shape-rendering="crispEdges"
-          aria-hidden="true"
-          focusable="false"
+    <div id="app" class="game-viewport">
+      <div class="viewport-chrome" aria-hidden="false">
+        <p class="start-credit">Made by 20318 최은서</p>
+        <button
+          type="button"
+          id="btn-bgm"
+          class="bgm-toggle"
+          aria-label="BGM 끄기"
+          aria-pressed="false"
+          title="BGM"
         >
-          <rect x="1" y="5" width="2" height="6" fill="currentColor" />
-          <rect x="3" y="4" width="3" height="8" fill="currentColor" />
-          <rect x="6" y="3" width="4" height="10" fill="currentColor" />
-          <rect x="11" y="5" width="2" height="2" fill="currentColor" />
-          <rect x="11" y="9" width="2" height="2" fill="currentColor" />
-          <rect x="13" y="4" width="2" height="3" fill="currentColor" />
-          <rect x="13" y="9" width="2" height="3" fill="currentColor" />
-        </svg>
-      </span>
-      <span class="bgm-toggle-label" aria-hidden="true">ON</span>
-    </button>
-    <p class="start-credit">Made by 20318 최은서</p>
-    <audio id="game-bgm" loop preload="auto" src="audio/bgm.mp3"></audio>
+          <span class="bgm-toggle-icon" aria-hidden="true">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              shape-rendering="crispEdges"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <rect x="1" y="5" width="2" height="6" fill="currentColor" />
+              <rect x="3" y="4" width="3" height="8" fill="currentColor" />
+              <rect x="6" y="3" width="4" height="10" fill="currentColor" />
+              <rect x="11" y="5" width="2" height="2" fill="currentColor" />
+              <rect x="11" y="9" width="2" height="2" fill="currentColor" />
+              <rect x="13" y="4" width="2" height="3" fill="currentColor" />
+              <rect x="13" y="9" width="2" height="3" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="bgm-toggle-label" aria-hidden="true">ON</span>
+        </button>
+      </div>
+      <audio id="game-bgm" loop preload="auto" src="audio/bgm.mp3"></audio>
     <div id="start-screen" class="start-screen">
       <div class="start-panel">
         <div class="title-plaque" aria-label="치킨 사수 냥이">
@@ -434,6 +440,7 @@
         <p id="modal-body"></p>
         <button type="button" class="btn" id="modal-btn">처음으로</button>
       </div>
+    </div>
     </div>
 
     <script src="js/choices-data.js"></script>

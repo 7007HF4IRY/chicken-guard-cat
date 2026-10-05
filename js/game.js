@@ -1005,7 +1005,8 @@
     bgmTapHintEl.className = "bgm-tap-hint";
     bgmTapHintEl.setAttribute("role", "status");
     bgmTapHintEl.textContent = "탭하면 음악 재생";
-    document.body.appendChild(bgmTapHintEl);
+    const chrome = document.querySelector(".viewport-chrome");
+    (chrome || document.body).appendChild(bgmTapHintEl);
   }
 
   function tryPlayBgm() {
