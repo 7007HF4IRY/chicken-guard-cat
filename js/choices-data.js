@@ -272,7 +272,7 @@ window.CHOICE_PACKS = [
             favor_delta: -11,
             suspicion_delta: 20,
             mood: "폭발",
-            reply: "안기는 건 사형이다옹!! *(발버둥)*",
+            reply: "안기는 건 안된다옹..!! *(발버둥)*",
           },
           {
             type: "trap",
