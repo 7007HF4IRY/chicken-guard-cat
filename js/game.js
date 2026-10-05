@@ -221,8 +221,8 @@
 
   function showChoiceGameOver(reply) {
     const firstShow = !els.choiceGameOver.classList.contains("show");
-    if (els.gameOverCat && els.catImg) {
-      els.gameOverCat.src = els.catImg.src;
+    if (els.gameOverCat) {
+      els.gameOverCat.src = START_CAT_SRC;
     }
     if (els.gameOverQuote) {
       els.gameOverQuote.textContent = reply || els.catBubbleText.textContent || "";
