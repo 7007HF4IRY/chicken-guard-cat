@@ -514,7 +514,7 @@ body.is-reaction-focus .stage-wrap {
 
 .sprite-stack {
   position: relative;
-  flex: 0 0 48%;
+  flex: 0 0 40%;
   max-width: var(--cat-in-game-max);
   aspect-ratio: 1024 / 875;
 }
@@ -540,6 +540,10 @@ body.is-reaction-focus .stage-wrap {
   z-index: 2;
   transform-origin: bottom center;
   animation: breathe 1.2s steps(2) infinite;
+}
+
+.stage-scene .sprite-stack .cat {
+  bottom: calc(10px * var(--ui-scale));
 }
 
 /* 게임 오버 타이틀 — 상세 스타일은 파일 하단(.modal 덮어쓰기) */
@@ -593,6 +597,13 @@ body.is-reaction-focus .stage-wrap {
 
 .game-over-stack .cat {
   animation: none;
+}
+
+#choice-game-over .start-sprite-stack .cat,
+#free-chat-fail .start-sprite-stack .cat,
+#free-chat-success .start-sprite-stack .cat,
+#choice-round-clear.is-round-1-clear .game-over-stack .cat {
+  bottom: calc(-5px * var(--ui-scale));
 }
 
 #free-chat-success .start-sprite-stack .cat,
@@ -1130,16 +1141,16 @@ body.is-reaction-focus .stage-wrap {
 @keyframes breathe {
   0%,
   100% {
-    transform: translateY(2.3%);
+    transform: translateY(20px);
   }
   50% {
-    transform: translateY(2.05%);
+    transform: translateY(18px);
   }
 }
 
 /* 픽셀 말풍선 — 고양이 오른쪽 */
 .cat-bubble {
-  flex: 1;
+  flex: 1 1 58%;
   min-width: 0;
   align-self: center;
   position: relative;
@@ -1200,7 +1211,9 @@ body.is-reaction-focus .stage-wrap {
 .cat-bubble p {
   margin: 0;
   font-size: 16px;
+  line-height: 1.45;
   word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* 설득 성공 — 말풍선 중심으로 퍼지는 초록 픽셀 스파클 */
@@ -1707,7 +1720,7 @@ body.is-reaction-focus .stage-wrap {
 
 @media (min-width: 480px) {
   .sprite-stack:not(.start-sprite-stack) {
-    flex-basis: 52%;
+    flex-basis: 44%;
     max-width: var(--cat-in-game-max-lg);
   }
 
