@@ -293,6 +293,99 @@
       </div>
     </div>
 
+    <div
+      id="free-chat-fail"
+      class="overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="modal modal-game-over">
+        <div class="game-over-pixel-wrap" aria-hidden="true">
+          <p class="game-over-pixel">GAME<br />OVER</p>
+        </div>
+        <div class="game-over-hero">
+          <div class="start-hero">
+            <div class="sprite-stack start-sprite-stack">
+              <img class="box" src="img/box.png" alt="" width="1024" height="875" />
+              <img
+                id="free-chat-fail-cat"
+                class="cat"
+                src="img/tired.png"
+                alt=""
+                width="1024"
+                height="875"
+              />
+            </div>
+          </div>
+          <p id="free-chat-fail-quote" class="game-over-quote"></p>
+        </div>
+        <div class="game-over-actions">
+          <button type="button" class="btn btn-game-over" id="btn-retry-free">
+            다시 설득해 볼게..!
+          </button>
+          <button type="button" class="btn btn-secondary btn-game-over" id="btn-free-fail-menu">
+            -첫 게임 화면으로 돌아가기-
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="free-chat-success"
+      class="overlay overlay-round-clear is-final"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="round-clear-fireworks" id="free-chat-success-fireworks" aria-hidden="true">
+        <div class="fw-site fw-site--bl">
+          <div class="fw-burst fw-burst--1"></div>
+          <div class="fw-burst fw-burst--2"></div>
+        </div>
+        <div class="fw-site fw-site--br">
+          <div class="fw-burst fw-burst--1"></div>
+          <div class="fw-burst fw-burst--2"></div>
+        </div>
+      </div>
+      <div class="modal modal-game-over modal-round-clear">
+        <div class="game-over-pixel-wrap round-clear-title-wrap">
+          <div class="round-clear-title-bounce">
+            <span class="round-clear-sparkle-bits" aria-hidden="true"></span>
+            <span class="round-clear-title-fireworks" aria-hidden="true">
+              <span class="round-clear-fw-branch round-clear-fw-branch--ll"></span>
+              <span class="round-clear-fw-branch round-clear-fw-branch--l"></span>
+              <span class="round-clear-fw-branch round-clear-fw-branch--c"></span>
+              <span class="round-clear-fw-branch round-clear-fw-branch--r"></span>
+              <span class="round-clear-fw-branch round-clear-fw-branch--rr"></span>
+            </span>
+            <p id="free-chat-success-title" class="round-clear-title">협상 성공!</p>
+          </div>
+        </div>
+        <div class="game-over-hero">
+          <div class="start-hero">
+            <div class="sprite-stack start-sprite-stack">
+              <img class="box" src="img/box.png" alt="" width="1024" height="875" />
+              <img
+                id="free-chat-success-cat"
+                class="cat"
+                src="img/love.png"
+                alt=""
+                width="1024"
+                height="875"
+              />
+            </div>
+          </div>
+          <p id="free-chat-success-quote" class="game-over-quote"></p>
+        </div>
+        <div class="game-over-actions">
+          <button type="button" class="btn btn-game-over" id="btn-free-success-menu">
+            -치킨 나눠 먹기 성공!-
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div id="rules-overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
       <div class="modal modal-rules">
         <h2 class="modal-title-row">게임 룰</h2>
@@ -335,7 +428,7 @@
       </div>
     </div>
 
-    <div id="overlay" class="overlay" role="dialog" aria-modal="true">
+    <div id="overlay" class="overlay is-hidden" role="dialog" aria-modal="true" aria-hidden="true" hidden>
       <div class="modal">
         <h2 id="modal-title" class="modal-title-row"></h2>
         <p id="modal-body"></p>

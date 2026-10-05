@@ -28,6 +28,9 @@
     { roman: "II", label: "닭 다리", icon: "img/icons/chicken-leg.png" },
   ];
 
+  const FREE_CHAT_SUCCESS_TITLE = "협상 성공!";
+  const FREE_CHAT_SUCCESS_PART_ICON = "img/icons/chicken-leg.png";
+
   const SAVE_KEY = "chicken-cat-save-v1";
   const SAVE_VERSION = 1;
   const BGM_MUTE_KEY = "chicken-cat-bgm-muted";
@@ -89,6 +92,16 @@
     roundClearCat: document.getElementById("round-clear-cat"),
     roundClearQuote: document.getElementById("round-clear-quote"),
     btnRoundClearNext: document.getElementById("btn-round-clear-next"),
+    freeChatFail: document.getElementById("free-chat-fail"),
+    freeChatFailCat: document.getElementById("free-chat-fail-cat"),
+    freeChatFailQuote: document.getElementById("free-chat-fail-quote"),
+    btnRetryFree: document.getElementById("btn-retry-free"),
+    btnFreeFailMenu: document.getElementById("btn-free-fail-menu"),
+    freeChatSuccess: document.getElementById("free-chat-success"),
+    freeChatSuccessTitle: document.getElementById("free-chat-success-title"),
+    freeChatSuccessCat: document.getElementById("free-chat-success-cat"),
+    freeChatSuccessQuote: document.getElementById("free-chat-success-quote"),
+    btnFreeSuccessMenu: document.getElementById("btn-free-success-menu"),
     bgm: document.getElementById("game-bgm"),
     btnBgm: document.getElementById("btn-bgm"),
   };
@@ -232,38 +245,106 @@
     if (firstShow) playPixelGameOverSting();
   }
 
+  function hideFreeChatFail() {
+    if (!els.freeChatFail) return;
+    els.freeChatFail.classList.remove("show");
+    els.freeChatFail.setAttribute("aria-hidden", "true");
+  }
+
+  function hideFreeChatSuccess() {
+    stopFinalRoundClearFireworks(els.freeChatSuccess, "free-chat-success-fireworks");
+    removeRoundClearPartIconSlot(els.freeChatSuccessTitle);
+    if (!els.freeChatSuccess) return;
+    els.freeChatSuccess.classList.remove("show");
+    els.freeChatSuccess.setAttribute("aria-hidden", "true");
+  }
+
+  function showFreeChatFail(reply) {
+    hideFreeChatSuccess();
+    const firstShow = !els.freeChatFail?.classList.contains("show");
+    if (els.freeChatFailCat) {
+      els.freeChatFailCat.src = START_CAT_SRC;
+    }
+    if (els.freeChatFailQuote) {
+      els.freeChatFailQuote.textContent =
+        reply || els.catBubbleText.textContent || "……";
+    }
+    els.freeChatFail?.classList.add("show");
+    els.freeChatFail?.setAttribute("aria-hidden", "false");
+    if (firstShow) playPixelGameOverSting();
+  }
+
+  function showFreeChatSuccess(reply, _endingType) {
+    hideFreeChatFail();
+    const firstShow = !els.freeChatSuccess?.classList.contains("show");
+    if (firstShow) playPixelRoundClearFanfare();
+    if (els.freeChatSuccessTitle) {
+      els.freeChatSuccessTitle.textContent = FREE_CHAT_SUCCESS_TITLE;
+    }
+    mountRoundClearPartIconSlot(
+      FREE_CHAT_SUCCESS_PART_ICON,
+      els.freeChatSuccessTitle
+    );
+    const catSrc = els.catImg?.src || "img/love.png";
+    if (els.freeChatSuccessCat) {
+      els.freeChatSuccessCat.src = catSrc.includes("mad")
+        ? "img/love.png"
+        : catSrc;
+    }
+    if (els.freeChatSuccessQuote) {
+      els.freeChatSuccessQuote.textContent =
+        reply || els.catBubbleText.textContent || "……";
+    }
+    els.freeChatSuccess?.classList.add("show");
+    els.freeChatSuccess?.setAttribute("aria-hidden", "false");
+    if (firstShow) {
+      requestAnimationFrame(() =>
+        startFinalRoundClearFireworks(
+          els.freeChatSuccess,
+          "free-chat-success-fireworks"
+        )
+      );
+    }
+  }
+
   function hideChoiceRoundClear() {
-    stopFinalRoundClearFireworks();
+    stopFinalRoundClearFireworks(null, "round-clear-fireworks");
     removeRoundClearPartIconSlot();
     if (!els.choiceRoundClear) return;
     els.choiceRoundClear.classList.remove("show", "is-final", "is-round-1-clear");
     els.choiceRoundClear.setAttribute("aria-hidden", "true");
   }
 
-  function removeRoundClearPartIconSlot() {
-    const bounce = els.roundClearTitle?.closest(".round-clear-title-bounce");
+  function removeRoundClearPartIconSlot(titleEl = els.roundClearTitle) {
+    const bounce = titleEl?.closest(".round-clear-title-bounce");
     bounce?.querySelector(".round-clear-part-icon-slot")?.remove();
-    els.roundClearPartIcon = null;
+    if (titleEl === els.roundClearTitle) {
+      els.roundClearPartIcon = null;
+    }
   }
 
-  function mountRoundClearPartIconSlot(iconSrc) {
-    if (!iconSrc || !els.roundClearTitle) return;
-    const bounce = els.roundClearTitle.closest(".round-clear-title-bounce");
+  function mountRoundClearPartIconSlot(iconSrc, titleEl = els.roundClearTitle) {
+    if (!iconSrc || !titleEl) return;
+    const bounce = titleEl.closest(".round-clear-title-bounce");
     if (!bounce) return;
-    removeRoundClearPartIconSlot();
+    removeRoundClearPartIconSlot(titleEl);
     const slot = document.createElement("div");
     slot.className = "round-clear-part-icon-slot";
     slot.setAttribute("aria-hidden", "true");
     const img = document.createElement("img");
-    img.id = "round-clear-part-icon";
+    if (titleEl === els.roundClearTitle) {
+      img.id = "round-clear-part-icon";
+    }
     img.className = "round-clear-part-icon";
     img.alt = "";
     img.width = 96;
     img.height = 96;
     img.src = iconSrc;
     slot.appendChild(img);
-    bounce.insertBefore(slot, els.roundClearTitle);
-    els.roundClearPartIcon = img;
+    bounce.insertBefore(slot, titleEl);
+    if (titleEl === els.roundClearTitle) {
+      els.roundClearPartIcon = img;
+    }
   }
 
   function showChoiceRoundClear() {
@@ -302,7 +383,12 @@
       els.choiceRoundClear.classList.add("show");
       els.choiceRoundClear.setAttribute("aria-hidden", "false");
       if (isFinal) {
-        requestAnimationFrame(() => startFinalRoundClearFireworks());
+        requestAnimationFrame(() =>
+          startFinalRoundClearFireworks(
+            els.choiceRoundClear,
+            "round-clear-fireworks"
+          )
+        );
       }
     }
     state.choiceRoundClearShown = true;
@@ -522,23 +608,19 @@
     return null;
   }
 
-  function setModalTitle(isWin) {
-    const icon = isWin ? "img/icons/win.svg" : "img/icons/lose.svg";
-    const label = isWin ? "협상 성공!" : "협상 실패…";
-    els.modalTitle.innerHTML = `<img class="pix-icon" src="${icon}" width="16" height="16" alt="" /> ${label}`;
-  }
-
   function showEnding(result, reply) {
     state.ended = true;
     const isWin = result.type === "success";
-    setModalTitle(isWin);
     const body = reply || "……";
-    els.modalBody.textContent = body;
-    els.overlay.classList.add("show");
     els.input.disabled = true;
     els.sendBtn.disabled = true;
     disableChoiceButtons();
-    endedModal = { isWin, body };
+    endedModal = { isWin, body, ending_type: result.ending_type };
+    if (isWin) {
+      showFreeChatSuccess(body, result.ending_type);
+    } else {
+      showFreeChatFail(body);
+    }
     persistSave("game");
   }
 
@@ -661,13 +743,15 @@
       return;
     }
 
-    if (state.ended && endedModal) {
-      setModalTitle(endedModal.isWin);
-      els.modalBody.textContent = endedModal.body;
-      els.overlay.classList.add("show");
+    if (state.mode === "free" && state.ended && endedModal) {
       els.input.disabled = true;
       els.sendBtn.disabled = true;
       disableChoiceButtons();
+      if (endedModal.isWin) {
+        showFreeChatSuccess(endedModal.body, endedModal.ending_type);
+      } else {
+        showFreeChatFail(endedModal.body);
+      }
       return;
     }
 
@@ -698,8 +782,8 @@
 
   const FW_PARTICLES_READY_KEY = "5";
 
-  function initRoundClearFireworkParticles() {
-    const root = document.getElementById("round-clear-fireworks");
+  function initRoundClearFireworkParticles(rootId) {
+    const root = document.getElementById(rootId);
     if (!root || root.dataset.particlesReady === FW_PARTICLES_READY_KEY) return;
 
     root.querySelectorAll(".fw-particle").forEach((el) => el.remove());
@@ -748,23 +832,22 @@
     root.dataset.particlesReady = FW_PARTICLES_READY_KEY;
   }
 
-  function stopFinalRoundClearFireworks() {
-    const root = document.getElementById("round-clear-fireworks");
+  function stopFinalRoundClearFireworks(_panel, rootId) {
+    const root = document.getElementById(rootId);
     if (!root) return;
     root.querySelectorAll(".fw-particle").forEach((el) => {
       el.style.animation = "none";
     });
   }
 
-  function startFinalRoundClearFireworks() {
-    const panel = els.choiceRoundClear;
+  function startFinalRoundClearFireworks(panel, rootId) {
     if (
       !panel?.classList.contains("show") ||
       !panel.classList.contains("is-final")
     ) {
       return;
     }
-    const root = document.getElementById("round-clear-fireworks");
+    const root = document.getElementById(rootId);
     if (!root) return;
     root.querySelectorAll(".fw-particle").forEach((el) => {
       el.style.animation = "none";
@@ -976,7 +1059,8 @@
   function initApp() {
     initPwaAndSfx();
     bindConnectivityStatus();
-    initRoundClearFireworkParticles();
+    initRoundClearFireworkParticles("round-clear-fireworks");
+    initRoundClearFireworkParticles("free-chat-success-fireworks");
     const packet = loadSave();
     if (packet?.screen === "game" && packet.state?.mode) {
       resumeGame(packet);
@@ -1007,6 +1091,8 @@
     state = createInitialState();
     hideChoiceGameOver();
     hideChoiceRoundClear();
+    hideFreeChatFail();
+    hideFreeChatSuccess();
     hideChoiceIntro();
     ensureStartCatTired();
     els.gameShell.classList.add("is-hidden");
@@ -1044,6 +1130,8 @@
     state = createInitialState();
     hideChoiceGameOver();
     hideChoiceRoundClear();
+    hideFreeChatFail();
+    hideFreeChatSuccess();
     hideChoiceIntro();
     state.mode = mode;
     if (mode === "choice") {
@@ -1455,6 +1543,8 @@
 
   function goToStartFromGameOver() {
     hideChoiceGameOver();
+    hideFreeChatFail();
+    hideFreeChatSuccess();
     showStartScreen();
   }
 
@@ -1466,6 +1556,15 @@
     startGame("choice", { skipChoiceIntro: true })
   );
   els.btnGoMenu.addEventListener("click", goToStartFromGameOver);
+  if (els.btnRetryFree) {
+    els.btnRetryFree.addEventListener("click", () => startGame("free"));
+  }
+  if (els.btnFreeFailMenu) {
+    els.btnFreeFailMenu.addEventListener("click", goToStartFromGameOver);
+  }
+  if (els.btnFreeSuccessMenu) {
+    els.btnFreeSuccessMenu.addEventListener("click", goToStartFromGameOver);
+  }
   els.modeButtons.forEach((btn) => {
     btn.addEventListener("click", () => startGame(btn.dataset.mode));
   });

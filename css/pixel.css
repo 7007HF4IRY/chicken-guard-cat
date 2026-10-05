@@ -527,6 +527,11 @@ body.is-reaction-focus .stage-wrap {
   animation: none;
 }
 
+#free-chat-success .start-sprite-stack .cat,
+#free-chat-fail .start-sprite-stack .cat {
+  animation: none;
+}
+
 #choice-round-clear .round-clear-hero-bounce {
   animation: none;
   transform-origin: center center;
@@ -560,15 +565,18 @@ body.is-reaction-focus .stage-wrap {
   line-height: 1.35;
 }
 
-#choice-game-over {
+#choice-game-over,
+#free-chat-fail {
   z-index: 110;
 }
 
-#choice-round-clear {
+#choice-round-clear,
+#free-chat-success {
   z-index: 108;
 }
 
-#choice-round-clear .modal-round-clear {
+#choice-round-clear .modal-round-clear,
+#free-chat-success .modal-round-clear {
   position: relative;
   z-index: 2;
 }
@@ -774,7 +782,8 @@ body.is-reaction-focus .stage-wrap {
   overflow: hidden;
 }
 
-#choice-round-clear.is-final .round-clear-fireworks {
+#choice-round-clear.is-final .round-clear-fireworks,
+#free-chat-success.is-final .round-clear-fireworks {
   display: block;
 }
 
@@ -830,7 +839,8 @@ body.is-reaction-focus .stage-wrap {
 }
 
 /* 최종 클리어 하단 폭죽 — burst 1→2 파도를 6.08s 주기로 무한 반복 (응집 → 팡) */
-#choice-round-clear.is-final .round-clear-fireworks .fw-particle {
+#choice-round-clear.is-final .round-clear-fireworks .fw-particle,
+#free-chat-success.is-final .round-clear-fireworks .fw-particle {
   --fw-cycle: 6.08s;
   animation-duration: var(--fw-cycle);
   animation-timing-function: linear;
@@ -838,11 +848,13 @@ body.is-reaction-focus .stage-wrap {
   animation-delay: var(--fw-delay, 0s);
 }
 
-#choice-round-clear.is-final .round-clear-fireworks .fw-burst--1 .fw-particle {
+#choice-round-clear.is-final .round-clear-fireworks .fw-burst--1 .fw-particle,
+#free-chat-success.is-final .round-clear-fireworks .fw-burst--1 .fw-particle {
   animation-name: fw-particle-coalesce-burst-cycle-1;
 }
 
-#choice-round-clear.is-final .round-clear-fireworks .fw-burst--2 .fw-particle {
+#choice-round-clear.is-final .round-clear-fireworks .fw-burst--2 .fw-particle,
+#free-chat-success.is-final .round-clear-fireworks .fw-burst--2 .fw-particle {
   animation-name: fw-particle-coalesce-burst-cycle-2;
 }
 
@@ -1010,7 +1022,9 @@ body.is-reaction-focus .stage-wrap {
 
 /* 나카나카 스파클 레이어 */
 #choice-round-clear.is-final::before,
-#choice-round-clear.is-final::after {
+#choice-round-clear.is-final::after,
+#free-chat-success.is-final::before,
+#free-chat-success.is-final::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -1028,7 +1042,8 @@ body.is-reaction-focus .stage-wrap {
   animation: fw-sparkle-drift 1.8s steps(4) infinite;
 }
 
-#choice-round-clear.is-final::after {
+#choice-round-clear.is-final::after,
+#free-chat-success.is-final::after {
   animation-delay: 0.45s;
   opacity: 0.4;
   transform: scale(1.05);
