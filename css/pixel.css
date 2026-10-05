@@ -599,15 +599,33 @@ body.is-reaction-focus .stage-wrap {
   animation: none;
 }
 
+/* 모달 고양이 — 라운드 클리어 #choice-round-clear .game-over-stack 기준 */
 #choice-game-over .start-sprite-stack .cat,
 #free-chat-fail .start-sprite-stack .cat,
 #free-chat-success .start-sprite-stack .cat,
-#choice-round-clear.is-round-1-clear .game-over-stack .cat {
+#choice-round-clear .game-over-stack .cat {
   bottom: calc(-5px * var(--ui-scale));
 }
 
+#choice-game-over .game-over-hero .start-hero,
+#free-chat-fail .game-over-hero .start-hero,
+#free-chat-success .game-over-hero .start-hero {
+  margin: 0 auto 10px;
+  max-width: var(--stage-over-max);
+  min-height: 0;
+  padding: 10px 8px 6px;
+  display: block;
+}
+
+#choice-game-over .game-over-hero .start-sprite-stack,
+#free-chat-fail .game-over-hero .start-sprite-stack,
+#free-chat-success .game-over-hero .start-sprite-stack {
+  margin: 0 auto;
+}
+
 #free-chat-success .start-sprite-stack .cat,
-#free-chat-fail .start-sprite-stack .cat {
+#free-chat-fail .start-sprite-stack .cat,
+#choice-game-over .start-sprite-stack .cat {
   animation: none;
 }
 

@@ -1,4 +1,4 @@
-const CACHE = "chicken-cat-static-v21";
+const CACHE = "chicken-cat-static-v22";
 
 const PRECACHE = [
   "./",
