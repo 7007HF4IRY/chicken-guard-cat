@@ -1036,7 +1036,9 @@
   function registerServiceWorker() {
     if (!("serviceWorker" in navigator)) return;
     if (window.location.protocol === "file:") return;
-    navigator.serviceWorker.register("service-worker.js").catch(() => {});
+    navigator.serviceWorker
+      .register("./service-worker.js", { scope: "./" })
+      .catch((err) => console.warn("SW registration failed", err));
   }
 
   function initPwaAndSfx() {
@@ -1292,10 +1294,6 @@
   }
 
   async function callAi(userText) {
-    if (isOfflineForChat()) {
-      throw new Error("offline");
-    }
-
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), CHAT_FETCH_MS);
 
@@ -1495,12 +1493,17 @@
     showThinkingBubble();
 
     let data;
-    try {
-      data = await callAi(userText);
-    } catch (e) {
-      console.warn(e);
+    if (isOfflineForChat()) {
       data = localFallback(userText);
       setApiStatusLocal();
+    } else {
+      try {
+        data = await callAi(userText);
+      } catch (e) {
+        console.warn(e);
+        data = localFallback(userText);
+        setApiStatusLocal();
+      }
     }
 
     const intent = data.intent || "기타";

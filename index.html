@@ -443,6 +443,11 @@
     </div>
     </div>
 
+    <script>
+      if ("serviceWorker" in navigator && location.protocol !== "file:") {
+        navigator.serviceWorker.register("./service-worker.js", { scope: "./" });
+      }
+    </script>
     <script src="js/choices-data.js"></script>
     <script src="js/game.js"></script>
   </body>
