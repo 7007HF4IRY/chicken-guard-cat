@@ -512,6 +512,20 @@ body.is-reaction-focus .stage-wrap {
   min-height: 140px;
 }
 
+/* 인게임 고양이+박스 — 시작 화면(.start-hero)과 동일 스택 규칙, 이중 테두리 없음 */
+.stage-scene-hero.start-hero {
+  margin: 0;
+  flex: 0 1 var(--stage-hero-max);
+  width: 100%;
+  max-width: var(--stage-hero-max);
+  min-height: 0;
+  padding: 12px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  overflow: visible;
+}
+
 .sprite-stack {
   position: relative;
   flex: 0 0 48%;
@@ -1705,7 +1719,7 @@ body.is-reaction-focus .stage-wrap {
 }
 
 @media (min-width: 480px) {
-  .sprite-stack {
+  .sprite-stack:not(.start-sprite-stack) {
     flex-basis: 52%;
     max-width: var(--cat-in-game-max-lg);
   }
