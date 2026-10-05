@@ -5,18 +5,27 @@
 }
 
 :root {
-  --bg-check-a: #143322;
-  --bg-check-b: #0c2418;
-  --panel: #f4e4c8;
+  /* 페이지 체커 — 2-bit 벨벳 레드 (스와치 샘플 8px) */
+  --bg-check-a: #1e5a3c;
+  --bg-check-b: #123a26;
+  /* UI 패널 — 크림 (메인); 버튼·도크·채팅은 초기 팔레트 */
+  --panel: #fff0e8;
   --panel-dark: #d4b896;
-  --ink: #1a1208;
+  --cream: #fff8e8;
+  --dock-bg: #ebe0cc;
+  --dock-inset: #d8ccb4;
+  --ink: #180828;
   --orange: #e87830;
   --orange-light: #ffb060;
   --pink: #e85888;
   --teal: #48a8a0;
-  --shadow: #061408;
-  --gauge-favor: #58c878;
-  --gauge-sus: #e85050;
+  --shadow: #281820;
+  --gauge-favor: #68a878;
+  --gauge-sus: #c85858;
+  /* 스테이지 — 다크 우드 브라운 (바닥·선반 느낌) */
+  --stage-bg: #6b5038;
+  --stage-inset: #443020;
+  --stage-subtitle: #e8d0b8;
   --font: "PixelKo", monospace;
   --px: 2px;
 }
@@ -56,6 +65,96 @@ body {
   padding: 8px;
 }
 
+.bgm-toggle {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 1200;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  min-width: 58px;
+  height: 38px;
+  padding: 0 10px;
+  border: 2px solid var(--ink);
+  background: #c8f0d0;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--shadow);
+  border-radius: 0;
+}
+
+.bgm-toggle--muted {
+  background: #ffd0d0;
+}
+
+.bgm-toggle--muted .bgm-toggle-icon {
+  opacity: 0.45;
+}
+
+.bgm-toggle-icon {
+  display: flex;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.bgm-toggle-icon svg {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.bgm-toggle-label {
+  display: block;
+  letter-spacing: 0.06em;
+}
+
+.bgm-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--shadow);
+}
+
+/* 딤 레이어(반응 포커스 90, .overlay 100+) 아래로 — BGM·크레딧·힌트가 밝게 떠 있지 않게 */
+body:has(.overlay.show) .bgm-toggle,
+body:has(.overlay.show) .start-credit,
+body:has(.overlay.show) .bgm-tap-hint,
+body.is-reaction-focus .bgm-toggle,
+body.is-reaction-focus .start-credit,
+body.is-reaction-focus .bgm-tap-hint {
+  z-index: 89;
+}
+
+.bgm-tap-hint {
+  position: fixed;
+  top: 52px;
+  right: 8px;
+  z-index: 1199;
+  margin: 0;
+  padding: 4px 8px;
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--ink);
+  background: rgba(255, 248, 232, 0.92);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--shadow);
+  pointer-events: none;
+  animation: bgm-hint-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes bgm-hint-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .pix-icon {
   display: inline-block;
   vertical-align: -3px;
@@ -75,6 +174,24 @@ body {
   padding: 12px;
 }
 
+.start-credit {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 99;
+  margin: 0;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 6px 10px;
+  color: var(--ink);
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--shadow);
+  pointer-events: none;
+}
+
 .start-panel {
   width: 100%;
   max-width: 420px;
@@ -89,7 +206,7 @@ body {
   display: inline-block;
   margin: 0 auto 14px;
   padding: 16px 24px 18px;
-  background: linear-gradient(180deg, #ffb060 0%, #e87830 55%, #d06020 100%);
+  background: linear-gradient(180deg, var(--orange-light) 0%, var(--orange) 55%, #c06828 100%);
   border: 5px solid var(--ink);
   box-shadow:
     6px 6px 0 var(--shadow),
@@ -101,8 +218,8 @@ body {
 .title-plaque-icon {
   display: block;
   margin: 0 auto 8px;
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
   image-rendering: pixelated;
 }
 
@@ -110,7 +227,7 @@ body {
   display: block;
   font-size: 36px;
   line-height: 1.15;
-  color: #fff8e8;
+  color: var(--cream);
   text-shadow: 3px 3px 0 var(--ink);
   letter-spacing: 0.02em;
 }
@@ -125,9 +242,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1a4a30;
+  background: var(--stage-bg);
   border: 4px solid var(--ink);
-  box-shadow: inset 0 0 0 2px #0f2e1c;
+  box-shadow: inset 0 0 0 2px var(--stage-inset);
   overflow: visible;
 }
 
@@ -140,11 +257,23 @@ body {
   transform-origin: center bottom;
 }
 
+.start-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .btn-start {
   width: 100%;
   min-height: 52px;
   font-size: 22px;
   padding: 12px;
+}
+
+.btn-rules {
+  width: 100%;
+  min-height: 40px;
+  font-size: 16px;
 }
 
 .mode-title {
@@ -160,7 +289,7 @@ body {
 
 .btn-mode {
   width: 100%;
-  min-height: 56px;
+  min-height: 48px;
   margin-bottom: 10px;
   font-size: 18px;
   text-align: left;
@@ -205,10 +334,10 @@ body {
 
 .choice-dock {
   border: 3px solid var(--ink);
-  background: #ebe0cc;
+  background: var(--dock-bg);
   padding: 8px;
   margin-bottom: 6px;
-  box-shadow: inset 2px 2px 0 #d8ccb4;
+  box-shadow: inset 2px 2px 0 var(--dock-inset);
 }
 
 .choice-prompt {
@@ -225,12 +354,13 @@ body {
 
 .choice-btn {
   font: inherit;
-  font-size: 13px;
+  font-family: var(--font);
+  font-size: 16px;
   line-height: 1.4;
   min-height: 64px;
   padding: 8px;
   border: 2px solid var(--ink);
-  background: #fff8e8;
+  background: var(--cream);
   color: var(--ink);
   cursor: pointer;
   box-shadow: 2px 2px 0 var(--shadow);
@@ -270,7 +400,7 @@ body {
 .title-bar p {
   margin: 4px 0 0;
   font-size: 15px;
-  color: #d8f0c8;
+  color: var(--stage-subtitle);
 }
 
 .layout {
@@ -284,12 +414,28 @@ body {
   padding: 8px;
 }
 
+/* 설득 성공 반응 — stage-wrap(고양이+멘트)만 밝게, 그 외는 부드럽게 딤 */
+body.is-reaction-focus::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.48);
+}
+
+body.is-reaction-focus .stage-wrap {
+  position: relative;
+  z-index: 91;
+  isolation: isolate;
+}
+
 .stage-wrap {
   padding: 6px 4px 4px;
-  background: #1a4a30;
+  background: var(--stage-bg);
   border: 3px solid var(--ink);
   margin-bottom: 8px;
-  box-shadow: inset 0 0 0 2px #0f2e1c;
+  box-shadow: inset 0 0 0 2px var(--stage-inset);
 }
 
 .stage-scene {
@@ -328,6 +474,576 @@ body {
   animation: breathe 1.2s steps(2) infinite;
 }
 
+/* 게임 오버 타이틀 — 상세 스타일은 파일 하단(.modal 덮어쓰기) */
+
+.modal-choice-intro {
+  max-width: 360px;
+  width: 100%;
+  padding: 20px 16px 16px;
+  text-align: center;
+}
+
+.choice-intro-text {
+  margin: 0 0 16px;
+  font-family: var(--font);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.modal-choice-intro .btn {
+  width: 100%;
+  min-height: 48px;
+  font-size: 18px;
+}
+
+#choice-intro-overlay {
+  z-index: 105;
+}
+
+.game-over-hero {
+  margin-bottom: 12px;
+}
+
+.game-over-stage {
+  margin: 0 auto 10px;
+  padding: 10px 8px 6px;
+  max-width: 280px;
+  background: var(--stage-bg);
+  border: 4px solid var(--ink);
+  box-shadow: inset 0 0 0 2px var(--stage-inset);
+}
+
+.game-over-stack {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  margin: 0 auto;
+  aspect-ratio: 1024 / 875;
+}
+
+.game-over-stack .cat {
+  animation: none;
+}
+
+#choice-round-clear .round-clear-hero-bounce {
+  animation: none;
+  transform-origin: center center;
+}
+
+.game-over-quote {
+  margin: 0;
+  padding: 8px 10px;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--ink);
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+
+.game-over-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-game-over {
+  width: 100%;
+  min-height: 44px;
+  font-size: 16px;
+  padding: 8px 10px;
+  line-height: 1.35;
+}
+
+#choice-game-over {
+  z-index: 110;
+}
+
+#choice-round-clear {
+  z-index: 108;
+}
+
+#choice-round-clear .modal-round-clear {
+  position: relative;
+  z-index: 2;
+}
+
+.modal.modal-round-clear .round-clear-title-wrap {
+  position: relative;
+  overflow: visible;
+}
+
+.round-clear-title-bounce {
+  position: relative;
+  animation: game-over-title 1.6s steps(4) infinite;
+  transform-origin: center center;
+}
+
+.round-clear-part-icon-slot {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* 라운드1 클리어 — 부위 아이콘 DOM 없음; 혹시 남아 있으면 숨김 */
+#choice-round-clear.is-round-1-clear .round-clear-part-icon-slot {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.round-clear-part-icon {
+  width: clamp(72px, 28vmin, 112px);
+  height: auto;
+  opacity: 1;
+  pointer-events: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* 노란 halo — 타이틀·아이콘 뒤 (z0), 원래 위치 */
+.round-clear-sparkle-bits {
+  display: block;
+  position: absolute;
+  inset: -4px 0;
+  margin: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent;
+  animation: round-clear-title-sparkle-halo 1.6s steps(4) infinite;
+}
+
+/* 타이틀 위 폭죽 — halo와 분리, 최상단 오버레이 (z3) */
+.round-clear-title-fireworks {
+  display: block;
+  position: absolute;
+  inset: -4px 0;
+  margin: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: transparent;
+  opacity: 0.88;
+  transform: translateY(-16px);
+  filter: blur(1.5px);
+}
+
+.round-clear-fw-branch {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+.round-clear-fw-branch--ll {
+  left: 28%;
+  top: 54%;
+  margin: -2px 0 0 -2px;
+  background: #ffe066;
+  box-shadow:
+    -12px -10px 0 0 #fff59a,
+    -20px -18px 0 0 #ffb020,
+    -26px -8px 0 0 #ffe066,
+    -18px -4px 0 0 #fff59a,
+    -30px 4px 0 0 #ffb020;
+  animation: round-clear-fw-orbit-a 1.35s steps(8) 0.08s infinite;
+}
+
+.round-clear-fw-branch--l {
+  left: 38%;
+  top: 52%;
+  margin: -2px 0 0 -2px;
+  background: #ffb020;
+  box-shadow:
+    -8px -14px 0 0 #fff59a,
+    -16px -22px 0 0 #ffe066,
+    -22px -11px 0 0 #ffe066,
+    -19px -6px 0 0 #ffb020,
+    -14px -8px 0 0 #ffe066,
+    -28px 8px 0 0 #ffe066;
+  animation: round-clear-fw-orbit-a 1.3s steps(8) infinite;
+}
+
+.round-clear-fw-branch--c {
+  left: 50%;
+  top: 48%;
+  margin: -3px 0 0 -3px;
+  width: 6px;
+  height: 6px;
+  background: #fff59a;
+  box-shadow:
+    6px -24px 0 0 #fff59a,
+    8px -22px 0 0 #ffe066,
+    0 -18px 0 0 #ffb020,
+    -4px -20px 0 0 #ff6eb4,
+    4px -20px 0 0 #5ce1ff;
+  animation: round-clear-fw-orbit-b 1.55s steps(8) 0.2s infinite;
+}
+
+.round-clear-fw-branch--r {
+  left: 62%;
+  top: 52%;
+  margin: -2px 0 0 -2px;
+  background: #ff6eb4;
+  box-shadow:
+    11px -16px 0 0 #fff59a,
+    22px -3px 0 0 #ffb020,
+    24px -8px 0 0 #ff6eb4,
+    16px 11px 0 0 #ff6eb4,
+    28px 11px 0 0 #5ce1ff,
+    14px 16px 0 0 #fff59a,
+    22px 6px 0 0 #ff6eb4;
+  animation: round-clear-fw-orbit-a 1.35s steps(8) 0.35s infinite;
+}
+
+.round-clear-fw-branch--rr {
+  left: 72%;
+  top: 54%;
+  margin: -2px 0 0 -2px;
+  background: #5ce1ff;
+  box-shadow:
+    12px -10px 0 0 #fff59a,
+    20px -18px 0 0 #ff6eb4,
+    26px -8px 0 0 #5ce1ff,
+    18px -4px 0 0 #fff59a,
+    30px 4px 0 0 #ffb020;
+  animation: round-clear-fw-orbit-a 1.4s steps(8) 0.42s infinite;
+}
+
+.round-clear-title {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font);
+  font-size: clamp(22px, calc(8vmin - 2px), 36px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  color: #ffb020;
+  text-align: center;
+  text-shadow:
+    -1px 0 0 var(--ink),
+    1px 0 0 var(--ink),
+    0 -1px 0 var(--ink),
+    0 1px 0 var(--ink),
+    -1px -1px 0 var(--ink),
+    1px -1px 0 var(--ink),
+    -1px 1px 0 var(--ink),
+    1px 1px 0 var(--ink),
+    2px 2px 0 var(--ink),
+    3px 3px 0 var(--ink);
+}
+
+@keyframes round-clear-title-sparkle-halo {
+  0%,
+  100% {
+    box-shadow: 0 0 2px 0 rgba(255, 176, 32, 0.12);
+  }
+  50% {
+    box-shadow:
+      -7px 0 0 0 #ffb020,
+      7px 0 0 0 #ffe066,
+      0 -7px 0 0 #fff59a,
+      0 7px 0 0 #ffb020,
+      -7px -7px 0 0 #ffe066,
+      7px -7px 0 0 #fff59a,
+      -7px 7px 0 0 #ff6eb4,
+      7px 7px 0 0 #5ce1ff,
+      0 0 2px 0 rgba(255, 224, 102, 0.2);
+  }
+}
+
+/* 최종 클리어 — 좌·우 하단 대형 픽셀 폭죽 */
+.round-clear-fireworks {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+#choice-round-clear.is-final .round-clear-fireworks {
+  display: block;
+}
+
+.fw-site {
+  position: absolute;
+  bottom: 0;
+  width: min(62vw, 340px);
+  height: min(78vh, 520px);
+}
+
+.fw-site--bl {
+  left: 0;
+}
+
+.fw-site--br {
+  right: 0;
+}
+
+.fw-burst {
+  position: absolute;
+  bottom: 10px;
+  width: 0;
+  height: 0;
+  image-rendering: pixelated;
+  background: transparent;
+}
+
+.fw-site--bl .fw-burst {
+  left: 24px;
+}
+
+.fw-site--br .fw-burst {
+  right: 24px;
+}
+
+.fw-site--bl .fw-burst--2 {
+  left: 52px;
+}
+
+.fw-site--br .fw-burst--2 {
+  right: 48px;
+}
+
+.fw-particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  image-rendering: pixelated;
+  opacity: 0;
+  background: var(--fw-color, #ffe066);
+}
+
+/* 최종 클리어 하단 폭죽 — burst 1→2 파도를 6.08s 주기로 무한 반복 (응집 → 팡) */
+#choice-round-clear.is-final .round-clear-fireworks .fw-particle {
+  --fw-cycle: 6.08s;
+  animation-duration: var(--fw-cycle);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-delay: var(--fw-delay, 0s);
+}
+
+#choice-round-clear.is-final .round-clear-fireworks .fw-burst--1 .fw-particle {
+  animation-name: fw-particle-coalesce-burst-cycle-1;
+}
+
+#choice-round-clear.is-final .round-clear-fireworks .fw-burst--2 .fw-particle {
+  animation-name: fw-particle-coalesce-burst-cycle-2;
+}
+
+@keyframes fw-particle-coalesce-burst-cycle-1 {
+  0% {
+    opacity: 0;
+    transform: translate(0, 10px) scale(0.26);
+    animation-timing-function: ease-out;
+  }
+  2.59% {
+    opacity: 0.65;
+    transform: translate(0, 9px) scale(0.34);
+    animation-timing-function: cubic-bezier(0.52, 0, 0.88, 0.42);
+  }
+  20.75% {
+    opacity: 1;
+    transform: translate(calc(var(--ex, 0px) * 0.06), calc(10px + var(--ey, 0px) * 0.06)) scale(1.32);
+    animation-timing-function: cubic-bezier(0.1, 0.78, 0.28, 1);
+  }
+  33.72% {
+    opacity: 1;
+    transform: translate(var(--ex, 0px), calc(10px + var(--ey, 0px))) scale(1.14);
+    animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  39.43% {
+    opacity: 0.92;
+    transform: translate(var(--ex, 0px), calc(10px + var(--ey, 0px))) scale(1.06);
+    animation-timing-function: ease-out;
+  }
+  46.69% {
+    opacity: 0.45;
+    transform: translate(var(--ex, 0px), calc(10px + var(--ey, 0px))) scale(1.02);
+  }
+  51.88%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--ex, 0px), calc(10px + var(--ey, 0px))) scale(0.96);
+  }
+}
+
+@keyframes fw-particle-coalesce-burst-cycle-2 {
+  0%,
+  47.37% {
+    opacity: 0;
+    transform: translate(0, 10px) scale(0.26);
+    animation-timing-function: ease-out;
+  }
+  50% {
+    opacity: 0.65;
+    transform: translate(0, 9px) scale(0.34);
+    animation-timing-function: cubic-bezier(0.52, 0, 0.88, 0.42);
+  }
+  68.42% {
+    opacity: 1;
+    transform: translate(calc(var(--ex, 0px) * 0.06), calc(10px + var(--ey, 0px) * 0.06)) scale(1.32);
+    animation-timing-function: cubic-bezier(0.1, 0.78, 0.28, 1);
+  }
+  81.58% {
+    opacity: 1;
+    transform: translate(var(--ex, 0px), calc(10px + var(--ey, 0px))) scale(1.14);
+    animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  87.37% {
+    opacity: 0.92;
+    transform: translate(var(--ex, 0px), calc(10px + var(--ey, 0px))) scale(1.06);
+    animation-timing-function: ease-out;
+  }
+  94.74% {
+    opacity: 0.45;
+    transform: translate(var(--ex, 0px), calc(10px + var(--ey, 0px))) scale(1.02);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--ex, 0px), calc(10px + var(--ey, 0px))) scale(0.96);
+  }
+}
+
+@keyframes round-clear-fw-orbit-a {
+  0%,
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) translate(0, -12px);
+  }
+  14% {
+    opacity: 0.92;
+    transform: rotate(63deg) translate(0, -15.4px);
+  }
+  24% {
+    opacity: 0.78;
+    transform: rotate(81deg) translate(0, -15.75px);
+  }
+  34% {
+    opacity: 0.55;
+    transform: rotate(87deg) translate(0, -15.92px);
+  }
+  44% {
+    opacity: 0.28;
+    transform: rotate(89deg) translate(0, -15.98px);
+  }
+  50% {
+    opacity: 0;
+    transform: rotate(90deg) translate(0, -16px);
+  }
+  58% {
+    opacity: 0.28;
+    transform: rotate(89deg) translate(0, -15.98px);
+  }
+  68% {
+    opacity: 0.55;
+    transform: rotate(72deg) translate(0, -15.5px);
+  }
+  80% {
+    opacity: 0.85;
+    transform: rotate(36deg) translate(0, -13.5px);
+  }
+  90% {
+    opacity: 0.96;
+    transform: rotate(12deg) translate(0, -12.5px);
+  }
+}
+
+@keyframes round-clear-fw-orbit-b {
+  0%,
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) translate(0, 12px);
+  }
+  14% {
+    opacity: 0.92;
+    transform: rotate(-63deg) translate(0, 15.4px);
+  }
+  24% {
+    opacity: 0.78;
+    transform: rotate(-81deg) translate(0, 15.75px);
+  }
+  34% {
+    opacity: 0.55;
+    transform: rotate(-87deg) translate(0, 15.92px);
+  }
+  44% {
+    opacity: 0.28;
+    transform: rotate(-89deg) translate(0, 15.98px);
+  }
+  50% {
+    opacity: 0;
+    transform: rotate(-90deg) translate(0, 16px);
+  }
+  58% {
+    opacity: 0.28;
+    transform: rotate(-89deg) translate(0, 15.98px);
+  }
+  68% {
+    opacity: 0.55;
+    transform: rotate(-72deg) translate(0, 15.5px);
+  }
+  80% {
+    opacity: 0.85;
+    transform: rotate(-36deg) translate(0, 13.5px);
+  }
+  90% {
+    opacity: 0.96;
+    transform: rotate(-12deg) translate(0, 12.5px);
+  }
+}
+
+/* 나카나카 스파클 레이어 */
+#choice-round-clear.is-final::before,
+#choice-round-clear.is-final::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(4px 4px at 12% 88%, #fff59a 98%, transparent),
+    radial-gradient(4px 4px at 18% 92%, #ffb020 98%, transparent),
+    radial-gradient(4px 4px at 82% 90%, #5ce1ff 98%, transparent),
+    radial-gradient(4px 4px at 88% 86%, #ff6eb4 98%, transparent),
+    radial-gradient(5px 5px at 8% 78%, #ffe066 98%, transparent),
+    radial-gradient(5px 5px at 92% 80%, #7dff9a 98%, transparent);
+  animation: fw-sparkle-drift 1.8s steps(4) infinite;
+}
+
+#choice-round-clear.is-final::after {
+  animation-delay: 0.45s;
+  opacity: 0.4;
+  transform: scale(1.05);
+}
+
+@keyframes fw-sparkle-drift {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
 @keyframes breathe {
   0%,
   100% {
@@ -345,7 +1061,7 @@ body {
   align-self: center;
   position: relative;
   padding: 8px 8px 8px 10px;
-  background: #fff8e8;
+  background: var(--cream);
   border: 3px solid var(--ink);
   box-shadow: 3px 3px 0 var(--shadow);
   margin-bottom: 12px;
@@ -395,13 +1111,171 @@ body {
   width: 0;
   height: 0;
   border: 4px solid transparent;
-  border-right-color: #fff8e8;
+  border-right-color: var(--cream);
 }
 
 .cat-bubble p {
   margin: 0;
   font-size: 16px;
   word-break: keep-all;
+}
+
+/* 설득 성공 — 말풍선 중심으로 퍼지는 초록 픽셀 스파클 */
+.cat-bubble .bubble-sparkle-bits {
+  display: none;
+}
+
+.cat-bubble.is-sparkle {
+  overflow: visible;
+  animation: bubble-pop 0.15s steps(2);
+}
+
+/* 초록 halo — 말풍선 fill/border 위 레이어 (::before/::after는 꼬리 전용 유지) */
+.cat-bubble.is-sparkle .bubble-sparkle-bits {
+  display: block;
+  position: absolute;
+  inset: -2px;
+  margin: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: transparent;
+  animation: cat-bubble-sparkle-halo 1s steps(4) infinite;
+}
+
+.cat-bubble.is-sparkle .bubble-sparkle-bits::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  background: #58c878;
+  image-rendering: pixelated;
+  box-shadow:
+    -13px -10px 0 0 #78d888,
+    2px -16px 0 0 var(--gauge-favor),
+    14px -8px 0 0 #48b868,
+    16px 2px 0 0 #58c878,
+    8px 14px 0 0 var(--gauge-favor),
+    -8px 14px 0 0 #68a878,
+    -14px 6px 0 0 #58c878,
+    12px -3px 0 0 #68d888;
+  animation: cat-sparkle-orbit-c 1.1s steps(4) 0.15s infinite;
+}
+
+.cat-bubble.is-sparkle p {
+  position: relative;
+  z-index: 3;
+}
+
+.cat-bubble.is-sparkle p::before,
+.cat-bubble.is-sparkle p::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  background: #58c878;
+  pointer-events: none;
+  image-rendering: pixelated;
+  box-shadow:
+    0 0 0 0 #58c878,
+    6px -10px 0 0 #78d888,
+    -8px -4px 0 0 var(--gauge-favor),
+    10px 6px 0 0 #48b868,
+    -6px 10px 0 0 #68d888,
+    14px -4px 0 0 #58c878,
+    -10px -14px 0 0 #48b868,
+    -4px -18px 0 0 #58c878;
+}
+
+.cat-bubble.is-sparkle p::before {
+  animation: cat-sparkle-orbit-a 1s steps(4) infinite;
+}
+
+.cat-bubble.is-sparkle p::after {
+  width: 3px;
+  height: 3px;
+  margin: -1px 0 0 -1px;
+  background: var(--gauge-favor);
+  box-shadow:
+    -12px -2px 0 0 #58c878,
+    4px -14px 0 0 #78d888,
+    14px 2px 0 0 #48b868,
+    -2px 12px 0 0 #68a878,
+    8px 10px 0 0 var(--gauge-favor),
+    -18px -10px 0 0 #78d888,
+    6px 18px 0 0 #48b868,
+    -20px 4px 0 0 #68a878;
+  animation: cat-sparkle-orbit-b 1.2s steps(4) 0.2s infinite;
+}
+
+@keyframes cat-bubble-sparkle-halo {
+  0%,
+  100% {
+    box-shadow: 0 0 2px 0 rgba(88, 200, 120, 0.18);
+  }
+  25% {
+    box-shadow:
+      -7px 0 0 0 #58c878,
+      7px 0 0 0 #58c878,
+      0 0 2px 0 rgba(88, 200, 120, 0.24);
+  }
+  50% {
+    box-shadow:
+      0 -7px 0 0 #78d888,
+      0 7px 0 0 #78d888,
+      -7px 0 0 0 #58c878,
+      7px 0 0 0 #58c878,
+      0 0 2px 0 rgba(120, 216, 136, 0.26);
+  }
+  75% {
+    box-shadow:
+      -8px -8px 0 0 #48b868,
+      8px -8px 0 0 #68a878,
+      -8px 8px 0 0 #58c878,
+      8px 8px 0 0 #78d888,
+      0 0 2px 0 rgba(72, 184, 104, 0.24);
+  }
+}
+
+@keyframes cat-sparkle-orbit-c {
+  0%,
+  100% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes cat-sparkle-orbit-a {
+  0%,
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) translate(0, -14px);
+  }
+  50% {
+    opacity: 0;
+    transform: rotate(90deg) translate(0, -18px);
+  }
+}
+
+@keyframes cat-sparkle-orbit-b {
+  0%,
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) translate(0, 14px);
+  }
+  50% {
+    opacity: 0;
+    transform: rotate(-90deg) translate(0, 18px);
+  }
 }
 
 .stats-grid {
@@ -460,12 +1334,27 @@ body {
   opacity: 0.85;
 }
 
+.hint .round-hint {
+  font-weight: bold;
+  letter-spacing: 0.04em;
+}
+
+.hint .round-part-icon {
+  display: inline-block;
+  vertical-align: middle;
+  height: 22px;
+  width: auto;
+  margin: 0 2px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
 .input-dock {
   border: 3px solid var(--ink);
-  background: #ebe0cc;
+  background: var(--dock-bg);
   padding: 6px;
   margin-bottom: 6px;
-  box-shadow: inset 2px 2px 0 #d8ccb4;
+  box-shadow: inset 2px 2px 0 var(--dock-inset);
 }
 
 .player-last {
@@ -572,6 +1461,147 @@ body {
   line-height: 1.55;
 }
 
+/* 선택지 게임 오버: .modal p(16px) 덮어쓰기 — 창 크기는 기본 모달과 동일 */
+.modal.modal-game-over {
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  padding: 12px;
+}
+
+.modal.modal-game-over .game-over-pixel-wrap {
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 0 2px;
+  box-sizing: border-box;
+}
+
+.modal.modal-game-over:not(.modal-round-clear) .game-over-pixel-wrap {
+  padding-block: 2px;
+}
+
+.modal.modal-game-over:not(.modal-round-clear) .game-over-pixel {
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font);
+  font-size: clamp(14px, calc(10vmin - 20px), 36px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: #ff4048;
+  text-align: center;
+  text-shadow:
+    3px 3px 0 var(--ink),
+    -1px -1px 0 #ff9aa0,
+    0 0 0 var(--ink);
+  animation: game-over-pixel-bounce 1.6s steps(4) infinite;
+  transform-origin: center center;
+}
+
+.modal.modal-game-over:not(.modal-round-clear) .game-over-pixel br {
+  display: block;
+  line-height: 0;
+  margin-block: 0.14em;
+}
+
+@keyframes game-over-title {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.04);
+  }
+}
+
+@keyframes game-over-pixel-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+.modal-rules {
+  max-width: 360px;
+  max-height: min(88vh, 520px);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.rules-body {
+  flex: 1;
+  overflow-y: auto;
+  margin: 0 0 10px;
+  padding-right: 4px;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.58;
+  color: var(--ink);
+}
+
+.rules-lead {
+  margin: 0 0 12px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #c06828;
+}
+
+.rules-block {
+  margin-bottom: 14px;
+}
+
+.rules-heading {
+  margin: 0 0 8px;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--orange);
+  text-shadow: 1px 1px 0 rgba(26, 18, 8, 0.15);
+}
+
+.rules-tag {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff5058;
+  margin-left: 4px;
+}
+
+.rules-list {
+  margin: 0;
+  padding-left: 1.15em;
+}
+
+.rules-list li {
+  margin-bottom: 7px;
+}
+
+.rules-list strong {
+  font-weight: 600;
+  color: #1a0a00;
+}
+
+.rules-warn {
+  color: #ff4048;
+  font-weight: 600;
+}
+
+.modal-rules .modal-title-row {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal-rules > .btn {
+  width: 100%;
+  flex-shrink: 0;
+}
+
 .status-pill {
   display: inline-block;
   font-size: 13px;
@@ -580,6 +1610,8 @@ body {
   background: #fff;
   margin-left: 4px;
   vertical-align: middle;
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .status-pill.offline {

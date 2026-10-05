@@ -1,0 +1,19 @@
+{
+  "name": "치킨 사수 냥이",
+  "short_name": "치킨냥이",
+  "description": "냥이를 설득해 치킨을 지키는 픽셀 협상 게임",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#8ec8e8",
+  "theme_color": "#5a4030",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "img/icons/chicken.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -4,13 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>치킨 사수 냥이</title>
+    <meta name="theme-color" content="#5a4030" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="css/pixel.css" />
   </head>
   <body>
+    <button
+      type="button"
+      id="btn-bgm"
+      class="bgm-toggle"
+      aria-label="BGM 끄기"
+      aria-pressed="false"
+      title="BGM"
+    >
+      <span class="bgm-toggle-icon" aria-hidden="true">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          shape-rendering="crispEdges"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <rect x="1" y="5" width="2" height="6" fill="currentColor" />
+          <rect x="3" y="4" width="3" height="8" fill="currentColor" />
+          <rect x="6" y="3" width="4" height="10" fill="currentColor" />
+          <rect x="11" y="5" width="2" height="2" fill="currentColor" />
+          <rect x="11" y="9" width="2" height="2" fill="currentColor" />
+          <rect x="13" y="4" width="2" height="3" fill="currentColor" />
+          <rect x="13" y="9" width="2" height="3" fill="currentColor" />
+        </svg>
+      </span>
+      <span class="bgm-toggle-label" aria-hidden="true">ON</span>
+    </button>
+    <p class="start-credit">Made by 20318 최은서</p>
+    <audio id="game-bgm" loop preload="auto" src="audio/bgm.mp3"></audio>
     <div id="start-screen" class="start-screen">
       <div class="start-panel">
         <div class="title-plaque" aria-label="치킨 사수 냥이">
-          <img class="title-plaque-icon" src="img/icons/chicken.svg" width="28" height="28" alt="" />
+          <img class="title-plaque-icon" src="img/icons/chicken.png" width="42" height="42" alt="" />
           <span class="title-plaque-text">치킨<br />사수 냥이</span>
         </div>
         <div class="start-hero">
@@ -26,29 +60,31 @@
             />
           </div>
         </div>
-        <button type="button" class="btn btn-start" id="btn-go-mode">
-          게임 시작!
-        </button>
+        <div class="start-actions">
+          <button type="button" class="btn btn-start" id="btn-go-mode">
+            게임 시작!
+          </button>
+          <button type="button" class="btn btn-secondary btn-rules" id="btn-rules">
+            룰 설명
+          </button>
+        </div>
       </div>
     </div>
 
     <div id="mode-screen" class="start-screen is-hidden" aria-hidden="true">
       <div class="start-panel mode-panel">
         <h2 class="mode-title">플레이 모드</h2>
-        <p class="mode-desc">어떻게 집사할까요?</p>
         <button type="button" class="btn btn-mode" data-mode="choice">
           <span class="mode-row">
             <span>선택지 모드</span>
             <span class="mode-diff">난이도 중!!</span>
           </span>
-          <span class="mode-sub">4개 중 설득 1개 · 5턴 전부 맞춰야 성공</span>
         </button>
         <button type="button" class="btn btn-mode" data-mode="free">
           <span class="mode-row">
             <span>자유 채팅 모드</span>
             <span class="mode-diff">난이도 상!!!</span>
           </span>
-          <span class="mode-sub">말을 직접 쳐요 · AI 냥이</span>
         </button>
         <button type="button" class="btn btn-secondary btn-back" id="btn-back-start">
           뒤로
@@ -59,7 +95,7 @@
     <div id="game-shell" class="shell is-hidden" aria-hidden="true">
       <header class="title-bar">
         <h1>
-          <img class="pix-icon" src="img/icons/chicken.svg" width="16" height="16" alt="" />
+          <img class="pix-icon" src="img/icons/chicken.png" width="26" height="26" alt="" />
           치킨 사수 냥이
         </h1>
         <p>
@@ -84,6 +120,7 @@
                 />
               </div>
               <div id="cat-bubble" class="cat-bubble" aria-live="polite">
+                <span class="bubble-sparkle-bits" aria-hidden="true"></span>
                 <p id="cat-bubble-text"></p>
               </div>
             </div>
@@ -137,7 +174,7 @@
           </div>
 
           <div id="choice-dock" class="choice-dock is-hidden" aria-hidden="true">
-            <p class="choice-prompt">집사의 한 수를 고르세요</p>
+            <p class="choice-prompt">집사의 한 수를 고르세요!</p>
             <div id="choice-grid" class="choice-grid"></div>
           </div>
 
@@ -146,6 +183,156 @@
           </button>
         </section>
       </main>
+    </div>
+
+    <div
+      id="choice-intro-overlay"
+      class="overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="modal modal-choice-intro">
+        <p class="choice-intro-text">냥이 말 속 힌트를 찾아보세요.. 👀</p>
+        <button type="button" class="btn" id="btn-choice-intro-go">오케이!</button>
+      </div>
+    </div>
+
+    <div
+      id="choice-round-clear"
+      class="overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="round-clear-fireworks" id="round-clear-fireworks" aria-hidden="true">
+        <div class="fw-site fw-site--bl">
+          <div class="fw-burst fw-burst--1"></div>
+          <div class="fw-burst fw-burst--2"></div>
+        </div>
+        <div class="fw-site fw-site--br">
+          <div class="fw-burst fw-burst--1"></div>
+          <div class="fw-burst fw-burst--2"></div>
+        </div>
+      </div>
+      <div class="modal modal-game-over modal-round-clear">
+        <div class="game-over-pixel-wrap round-clear-title-wrap">
+          <div class="round-clear-title-bounce">
+            <span class="round-clear-sparkle-bits" aria-hidden="true"></span>
+            <span class="round-clear-title-fireworks" aria-hidden="true">
+              <span class="round-clear-fw-branch round-clear-fw-branch--ll"></span>
+              <span class="round-clear-fw-branch round-clear-fw-branch--l"></span>
+              <span class="round-clear-fw-branch round-clear-fw-branch--c"></span>
+              <span class="round-clear-fw-branch round-clear-fw-branch--r"></span>
+              <span class="round-clear-fw-branch round-clear-fw-branch--rr"></span>
+            </span>
+            <p id="round-clear-title" class="round-clear-title">닭 날개 획득!</p>
+          </div>
+        </div>
+        <div class="game-over-hero">
+          <div class="game-over-stage">
+            <div class="round-clear-hero-bounce">
+              <div class="sprite-stack game-over-stack">
+                <img class="box" src="img/box.png" alt="" width="1024" height="875" />
+                <img
+                  id="round-clear-cat"
+                  class="cat"
+                  src="img/love.png"
+                  alt=""
+                  width="1024"
+                  height="875"
+                />
+              </div>
+            </div>
+          </div>
+          <p id="round-clear-quote" class="game-over-quote"></p>
+        </div>
+        <div class="game-over-actions">
+          <button type="button" class="btn btn-game-over" id="btn-round-clear-next">
+            다음 라운드로
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="choice-game-over"
+      class="overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="modal modal-game-over">
+        <div class="game-over-pixel-wrap" aria-hidden="true">
+          <p class="game-over-pixel">GAME<br />OVER</p>
+        </div>
+        <div class="game-over-hero">
+          <div class="game-over-stage">
+            <div class="sprite-stack game-over-stack">
+              <img class="box" src="img/box.png" alt="" width="1024" height="875" />
+              <img
+                id="game-over-cat"
+                class="cat"
+                src="img/mad.png"
+                alt=""
+                width="1024"
+                height="875"
+              />
+            </div>
+          </div>
+          <p id="game-over-quote" class="game-over-quote"></p>
+        </div>
+        <div class="game-over-actions">
+          <button type="button" class="btn btn-game-over" id="btn-retry-choice">
+            윽.. 재도전..!!
+          </button>
+          <button type="button" class="btn btn-secondary btn-game-over" id="btn-go-menu">
+            -첫 게임 화면으로 돌아가기-
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="rules-overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal modal-rules">
+        <h2 class="modal-title-row">게임 룰</h2>
+        <div class="rules-body">
+          <p class="rules-lead">
+            치킨 박스를 지키는 냥이를 설득해서 치킨을 나눠 먹자!
+          </p>
+          <section class="rules-block">
+            <h3 class="rules-heading">공통 규칙</h3>
+            <ul class="rules-list">
+              <li><strong>설득력</strong>이 오를수록 냥이 마음이 열려요.</li>
+              <li><strong>인내심</strong>이 바닥나면 게임 오버!</li>
+            </ul>
+          </section>
+          <section class="rules-block">
+            <h3 class="rules-heading">선택지 모드 <span class="rules-tag">난이도 중!!</span></h3>
+            <ul class="rules-list">
+              <li>
+                총 <strong>2라운드</strong>로 구성돼 있어요.<br />
+                <strong>ROUND 1</strong> 닭 날개<br />
+                <strong>ROUND 2</strong> 닭 다리
+              </li>
+              <li>턴마다 집사 대사 중 <strong>1개</strong>를 선택!</li>
+              <li>
+                설득형 선지만 골라야 해요.<br />
+                <span class="rules-warn">함정형 선지 선택 즉시 GAME OVER.</span>
+              </li>
+            </ul>
+          </section>
+          <section class="rules-block">
+            <h3 class="rules-heading">자유 채팅 모드 <span class="rules-tag">난이도 상!!!</span></h3>
+            <ul class="rules-list">
+              <li>집사가 되어 냥이를 직접 설득해요.</li>
+              <li>5턴 안에 협상에 성공해야 해요.</li>
+              <li>같은 말 반복, 급한 재촉 금지!</li>
+            </ul>
+          </section>
+        </div>
+        <button type="button" class="btn" id="btn-rules-close">닫기</button>
+      </div>
     </div>
 
     <div id="overlay" class="overlay" role="dialog" aria-modal="true">

@@ -1,3 +1,13 @@
 node_modules/
 .env
 .DS_Store
+.demucs-venv/
+.ffmpeg-tools-py/
+audio/_work/
+audio/_demucs_out/
+audio/_demucs_out4/
+audio/chill_chiptune.mp3
+audio/_bgm_loop.wav
+audio/_generate_bgm.py
+img/cats/
+scripts/__pycache__/
