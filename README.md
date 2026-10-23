@@ -9,6 +9,8 @@
 | **풀 게임 (온라인)** | https://chicken-guard-cat.onrender.com/ | **선택지 모드** + **자유 채팅 모드**(AI). 온라인일 때 자유 채팅 사용 가능. 오프라인이면 풀 사이트도 선택지만 가능. |
 | **오프라인 전용** | https://chicken-guard-cat-offline.onrender.com/ | **선택지 모드만**. 자유 채팅 UI 없음. 아래 「오프라인 플레이 3가지」 참고. |
 
+**폰 QR 스캔:** 카메라·QR 앱으로 스캔하면 위 URL을 브라우저에서 여는 것과 같습니다. **첫 스캔·첫 로드는 데이터(인터넷)가 필요**합니다. 이후 PWA(홈 화면 추가)나 브라우저 캐시가 잡히면 비행기 모드에서도 될 수 있습니다. **처음부터 데이터 0%** 는 QR이 아니라 ZIP을 PC/Android 파일로 미리 받는 방법을 쓰세요. QR PNG는 `img/offline-site-qr.png` (`npm run generate:offline-qr`로 재생성).
+
 ### 「데이터 0% 처음부터」 (Wi‑Fi·LTE 끈 상태에서도)
 
 **진실:** `https://*.onrender.com` 은 **네트워크가 한 번도 없으면** 열 수 없습니다. URL 붙여넣기로 “처음부터 오프라인”은 불가능합니다.

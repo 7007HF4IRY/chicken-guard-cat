@@ -411,6 +411,37 @@ body.is-reaction-focus .viewport-chrome {
   margin-bottom: 4px;
 }
 
+.offline-pwa-banner-qr {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 0 0 10px;
+}
+
+.offline-pwa-qr-item {
+  flex: 1 1 140px;
+  max-width: 180px;
+  margin: 0;
+  text-align: center;
+}
+
+.offline-pwa-qr-item img {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 6px;
+  image-rendering: pixelated;
+  border: var(--px) solid var(--shadow);
+  background: #fff;
+}
+
+.offline-pwa-qr-item figcaption {
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
 .offline-pwa-ios-hint {
   margin: 0 0 10px;
   padding: 6px 8px;

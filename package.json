@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "build:offline": "node scripts/build-offline.js"
+    "build:offline": "node scripts/build-offline.js",
+    "generate:offline-qr": "node scripts/generate-offline-qr.js"
   },
   "engines": {
     "node": ">=18"
