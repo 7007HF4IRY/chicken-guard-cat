@@ -351,30 +351,6 @@ body.is-reaction-focus .viewport-chrome {
   font-size: 15px;
 }
 
-.start-share-qr {
-  margin: 12px 0 0;
-  padding: 0;
-  text-align: center;
-}
-
-.start-share-qr img {
-  display: block;
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 4px;
-  image-rendering: pixelated;
-  border: calc(2px * var(--ui-scale)) solid var(--shadow);
-  background: #fff;
-}
-
-.start-share-qr figcaption {
-  margin: 0;
-  font-size: 10px;
-  line-height: 1.35;
-  color: var(--ink);
-  opacity: 0.85;
-}
-
 .btn-mode {
   width: 100%;
   min-height: 48px;

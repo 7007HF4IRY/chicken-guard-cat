@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Offline site QR PNGs (npx qrcode, no package.json dependency).
+ * QR PNGs for print / sharing outside the game UI (not loaded in-game).
+ * Run: npm run generate:offline-qr
  */
 const { execFileSync } = require("child_process");
 const path = require("path");
