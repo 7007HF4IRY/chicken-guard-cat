@@ -9,17 +9,28 @@
 | **풀 게임 (온라인)** | https://chicken-guard-cat.onrender.com/ | **선택지 모드** + **자유 채팅 모드**(AI). 온라인일 때 자유 채팅 사용 가능. 오프라인이면 풀 사이트도 선택지만 가능. |
 | **오프라인 전용** | https://chicken-guard-cat-offline.onrender.com/ | **선택지 모드만**. 자유 채팅 UI 없음. 아래 「오프라인 플레이 3가지」 참고. |
 
-### 오프라인 플레이 3가지 (선택지 모드)
+### 「데이터 0% 처음부터」 (Wi‑Fi·LTE 끈 상태에서도)
 
-**솔직한 한계:** `https://*.onrender.com` 주소는 **인터넷·DNS 없이 처음부터** 열 수 없습니다. “한 번 방문 후 캐시”만으로는 **그 전에 한 번은 온라인**이어야 합니다. **처음부터 100% 오프라인**이 필요하면 **(A) ZIP** 또는 **(B) PWA 홈 화면**을 미리 준비하세요.
+**진실:** `https://*.onrender.com` 은 **네트워크가 한 번도 없으면** 열 수 없습니다. URL 붙여넣기로 “처음부터 오프라인”은 불가능합니다.
+
+**가능한 방법:** ZIP을 **미리** USB·AirDrop·교실 복사 등으로 기기에 넣어 두고, **플레이할 때는 인터넷을 쓰지 않습니다.**
+
+1. (준비 단계, 인터넷 있어도 됨) [오프라인 사이트](https://chicken-guard-cat-offline.onrender.com/)에서 **ZIP** 받거나, `npm run build:offline` 후 `offline/chicken-guard-cat-offline.zip` 사용  
+2. ZIP 압축 해제  
+3. **더블클릭:** macOS `게임-시작-mac.command` / Windows `게임-시작-windows.bat`  
+4. 브라우저 `http://127.0.0.1:8765` → **게임 시작!**
+
+폰: Android에서 ZIP 풀기는 가능하지만 PC처럼 로컬 서버 런처가 어렵습니다. **홈 화면 PWA**는 최소 **한 번은 온라인**으로 설치해야 합니다. 무데이터 시연·재생은 **PC/Mac ZIP**을 쓰세요.
+
+`index.html`을 `file://`로만 열어도 SW 없이 동작하도록 되어 있으나, 브라우저마다 글꼴·오디오 제한이 있을 수 있어 **런처(로컬 서버)** 를 권장합니다. ZIP 안 `오프라인-플레이-방법.txt` 참고.
+
+### 오프라인 플레이 3가지 (선택지 모드)
 
 | 방법 | 준비 | 비행기 모드에서 |
 |------|------|-----------------|
-| **(A) ZIP 로컬 실행** | Wi‑Fi에서 [오프라인 사이트](https://chicken-guard-cat-offline.onrender.com/) 상단 **ZIP 다운로드** (또는 `npm run build:offline` 후 `offline/chicken-guard-cat-offline.zip`) | ZIP 압축 해제 → 폴더에서 `python3 -m http.server 8080` → 브라우저 `http://localhost:8080` (**인터넷 불필요**) |
-| **(B) PWA 홈 화면에 추가** | 온라인일 때 오프라인 사이트 접속 → 배너 **홈 화면에 추가** (iPhone: Safari **공유 → 홈 화면에 추가**) | 설치한 **앱 아이콘**으로 실행 (**캐시된 뒤 오프라인**) |
-| **(C) URL + 캐시** | 온라인에서 오프라인 URL을 **한 번** 열어 두기 (Service Worker가 자산 저장) | 같은 브라우저에서 **다시** 그 URL 접속 (이미 캐시된 경우만) |
-
-ZIP 안의 `오프라인-플레이-방법.txt`에도 동일 안내가 있습니다. `file://`로 `index.html`만 더블클릭해도 되지만, 글꼴·캐시 제한이 있을 수 있어 **로컬 서버 한 줄**을 권장합니다.
+| **(A) ZIP + 런처** | ZIP을 기기에 미리 복사 (위 「데이터 0%」) | 더블클릭 런처 → **인터넷 불필요** |
+| **(B) PWA 홈 화면** | 온라인일 때 오프라인 사이트 → **홈 화면에 추가** | 설치 후 **캐시된 뒤** 오프라인 |
+| **(C) URL + 캐시** | 온라인에서 오프라인 URL **한 번** 방문 | 같은 브라우저 재접속 (캐시 있을 때만) |
 
 ### 로컬 실행 (풀 사이트)
 
@@ -33,10 +44,10 @@ npm start
 
 ```bash
 npm run build:offline
-npx --yes serve offline -p 4173
+cd offline && python3 -m http.server 8765
 ```
 
-브라우저에서 `http://localhost:4173` — `offline/` 루트가 오프라인 전용 빌드와 동일합니다.
+브라우저에서 `http://127.0.0.1:8765` — `offline/` 루트가 오프라인 전용 빌드와 ZIP 내용과 동일합니다 (`npx` 불필요).
 
 ## Render Blueprint (두 서비스)
 

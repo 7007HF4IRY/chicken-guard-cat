@@ -55,6 +55,9 @@ for (const { from, to, dir } of LINKS) {
   linkOne(from, to, dir);
 }
 
+const { writeOfflineLaunchers } = require("./pack-offline-zip");
+writeOfflineLaunchers(OUT);
+
 const { execFileSync } = require("child_process");
 execFileSync(process.execPath, [path.join(__dirname, "pack-offline-zip.js")], {
   stdio: "inherit",
