@@ -55,6 +55,8 @@
     btnRulesClose: document.getElementById("btn-rules-close"),
     btnBackStart: document.getElementById("btn-back-start"),
     modeButtons: document.querySelectorAll("[data-mode]"),
+    btnModeFree: document.getElementById("btn-mode-free"),
+    offlineModeNotice: document.getElementById("offline-mode-notice"),
     modeLabel: document.getElementById("mode-label"),
     gameHint: document.getElementById("game-hint"),
     freeDock: document.getElementById("free-dock"),
@@ -762,6 +764,11 @@
       syncChoiceTurnDeckForRound();
       updateChoiceRoundUi();
       renderChoiceTurn();
+    } else if (isNetworkOffline()) {
+      setApiStatusLocal();
+      els.input.disabled = false;
+      els.sendBtn.disabled = false;
+      els.input.focus();
     } else {
       checkApi();
       els.input.disabled = false;
@@ -1059,8 +1066,26 @@
     registerServiceWorker();
   }
 
+  function isNetworkOffline() {
+    return typeof navigator !== "undefined" && navigator.onLine === false;
+  }
+
+  function applyOfflineShellUi() {
+    const offline = isNetworkOffline();
+    if (els.btnModeFree) {
+      els.btnModeFree.classList.toggle("is-hidden", offline);
+      els.btnModeFree.hidden = offline;
+      els.btnModeFree.disabled = offline;
+      els.btnModeFree.setAttribute("aria-hidden", offline ? "true" : "false");
+    }
+    if (els.offlineModeNotice) {
+      els.offlineModeNotice.classList.toggle("is-hidden", !offline);
+    }
+  }
+
   function initApp() {
     initPwaAndSfx();
+    applyOfflineShellUi();
     bindConnectivityStatus();
     initRoundClearFireworkParticles("round-clear-fireworks");
     initRoundClearFireworkParticles("free-chat-success-fireworks");
@@ -1108,6 +1133,7 @@
   }
 
   function showModeScreen() {
+    applyOfflineShellUi();
     els.startScreen.classList.add("is-hidden");
     els.modeScreen.classList.remove("is-hidden");
     els.modeScreen.setAttribute("aria-hidden", "false");
@@ -1124,9 +1150,14 @@
       els.gameHint.textContent = "설득 80↑ · 인내심 60↑ · 실패 10↓";
     }
     els.apiStatus.classList.toggle("is-hidden", isChoice);
+    els.apiStatus.hidden = isChoice;
   }
 
   function startGame(mode, options = {}) {
+    if (mode === "free" && isNetworkOffline()) {
+      applyOfflineShellUi();
+      return;
+    }
     clearPersuadeReactionTimer();
     lastReactionExpression = null;
     choicePickLocked = false;
@@ -1163,7 +1194,10 @@
       showCatBubble(OPENING);
     }
     if (mode === "free") {
-      checkApi();
+      els.apiStatus.hidden = false;
+      els.apiStatus.classList.remove("is-hidden");
+      if (!isNetworkOffline()) checkApi();
+      else setApiStatusLocal();
       els.input.focus();
     } else {
       els.apiStatus.textContent = "OFFLINE";
@@ -1286,9 +1320,11 @@
 
   function bindConnectivityStatus() {
     window.addEventListener("online", () => {
+      applyOfflineShellUi();
       if (state.mode === "free" && !state.ended) checkApi();
     });
     window.addEventListener("offline", () => {
+      applyOfflineShellUi();
       if (state.mode === "free") setApiStatusLocal();
     });
   }

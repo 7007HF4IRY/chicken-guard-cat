@@ -80,13 +80,20 @@
     <div id="mode-screen" class="start-screen is-hidden" aria-hidden="true">
       <div class="start-panel mode-panel">
         <h2 class="mode-title">플레이 모드</h2>
+        <p
+          id="offline-mode-notice"
+          class="offline-mode-notice is-hidden"
+          role="status"
+        >
+          오프라인 모드 — 선택지만 가능
+        </p>
         <button type="button" class="btn btn-mode" data-mode="choice">
           <span class="mode-row">
             <span>선택지 모드</span>
             <span class="mode-diff">난이도 중!!</span>
           </span>
         </button>
-        <button type="button" class="btn btn-mode" data-mode="free">
+        <button type="button" class="btn btn-mode" data-mode="free" id="btn-mode-free">
           <span class="mode-row">
             <span>자유 채팅 모드</span>
             <span class="mode-diff">난이도 상!!!</span>
@@ -106,7 +113,7 @@
         </h1>
         <p>
           <span id="mode-label">모드</span>
-          <span id="api-status" class="status-pill">확인 중…</span>
+          <span id="api-status" class="status-pill is-hidden" hidden>—</span>
         </p>
       </header>
 

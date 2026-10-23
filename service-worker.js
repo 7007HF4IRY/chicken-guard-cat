@@ -1,5 +1,6 @@
-const CACHE = "chicken-cat-static-v23";
+const CACHE = "chicken-cat-static-v24";
 
+/** Same-origin assets required for choice-mode offline play (verified on disk). */
 const PRECACHE = [
   "./",
   "./index.html",
@@ -25,13 +26,23 @@ const PRECACHE = [
   "./audio/bgm.mp3",
 ];
 
+const CRITICAL = new Set([
+  "./index.html",
+  "./js/game.js",
+  "./js/choices-data.js",
+  "./css/pixel.css",
+]);
+
 function scopeBase() {
   return new URL("./", self.location.href).href;
 }
 
+function resolvePrecacheUrl(path) {
+  return new URL(path, scopeBase()).href;
+}
+
 function absolutePrecacheUrls() {
-  const base = scopeBase();
-  return PRECACHE.map((path) => new URL(path, base).href);
+  return PRECACHE.map((path) => resolvePrecacheUrl(path));
 }
 
 async function matchCached(cache, request) {
@@ -57,7 +68,7 @@ async function matchCached(cache, request) {
   }
 
   if (pathname === "/" || pathname.endsWith("/")) {
-    const rootIndex = new URL("./index.html", base).href;
+    const rootIndex = resolvePrecacheUrl("./index.html");
     const byRootIndex = await cache.match(rootIndex, matchOpts);
     if (byRootIndex) return byRootIndex;
   }
@@ -67,7 +78,8 @@ async function matchCached(cache, request) {
   if (byRel) return byRel;
 
   for (const abs of absolutePrecacheUrls()) {
-    if (abs === href || abs.endsWith(pathname)) {
+    const absUrl = new URL(abs);
+    if (abs === href || absUrl.pathname === pathname) {
       const hit = await cache.match(abs, matchOpts);
       if (hit) return hit;
     }
@@ -76,13 +88,40 @@ async function matchCached(cache, request) {
   return null;
 }
 
+async function putPrecacheEntry(cache, path) {
+  const url = resolvePrecacheUrl(path);
+  try {
+    const response = await fetch(path, { cache: "reload" });
+    if (!response || !response.ok) {
+      console.warn("[SW] precache skip (bad response):", path, response?.status);
+      return { path, ok: false };
+    }
+    await cache.put(url, response);
+    if (path === "./" || path === "./index.html") {
+      await cache.put(resolvePrecacheUrl("./index.html"), response.clone());
+    }
+    return { path, ok: true };
+  } catch (err) {
+    console.warn("[SW] precache failed:", path, err);
+    return { path, ok: false };
+  }
+}
+
+async function populatePrecache(cache) {
+  const results = await Promise.all(PRECACHE.map((p) => putPrecacheEntry(cache, p)));
+  const failedCritical = results.filter(
+    (r) => !r.ok && CRITICAL.has(r.path)
+  );
+  if (failedCritical.length) {
+    console.error("[SW] critical precache missing:", failedCritical.map((r) => r.path));
+  }
+}
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
       .open(CACHE)
-      .then((cache) =>
-        Promise.allSettled(PRECACHE.map((url) => cache.add(url)))
-      )
+      .then((cache) => populatePrecache(cache))
       .then(() => self.skipWaiting())
   );
 });
@@ -119,15 +158,20 @@ self.addEventListener("fetch", (event) => {
         return response;
       } catch {
         if (event.request.mode === "navigate") {
-          const indexUrl = new URL("./index.html", scopeBase()).href;
+          const indexUrl = resolvePrecacheUrl("./index.html");
           const fallback =
             (await cache.match(indexUrl, { ignoreSearch: true })) ||
-            (await cache.match("./index.html", { ignoreSearch: true }));
+            (await cache.match("./index.html", { ignoreSearch: true })) ||
+            (await matchCached(cache, new Request(indexUrl)));
           if (fallback) return fallback;
         }
         const retry = await matchCached(cache, event.request);
         if (retry) return retry;
-        throw new Error("offline and not in cache");
+        return new Response("Offline — not cached", {
+          status: 503,
+          statusText: "Offline",
+          headers: { "Content-Type": "text/plain; charset=utf-8" },
+        });
       }
     })()
   );
