@@ -13,6 +13,10 @@ const FULL_GAME_URL = "https://chicken-guard-cat.onrender.com/";
 
 const TARGETS = [
   {
+    file: "game-site-qr.png",
+    url: FULL_GAME_URL,
+  },
+  {
     file: "offline-site-qr.png",
     url: FULL_GAME_URL,
   },

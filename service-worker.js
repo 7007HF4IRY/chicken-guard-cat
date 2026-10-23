@@ -1,4 +1,4 @@
-const CACHE = "chicken-cat-static-v25";
+const CACHE = "chicken-cat-static-v26";
 
 /** Same-origin assets required for choice-mode offline play (verified on disk). */
 const PRECACHE = [
@@ -18,6 +18,7 @@ const PRECACHE = [
   "./img/love.png",
   "./img/mad.png",
   "./img/icons/chicken.png",
+  "./img/game-site-qr.png",
   "./img/icons/chicken-wing.png",
   "./img/icons/chicken-leg.png",
   "./img/icons/chicken-drum.png",

@@ -59,7 +59,6 @@
     btnBackStart: document.getElementById("btn-back-start"),
     modeButtons: document.querySelectorAll("[data-mode]"),
     btnModeFree: document.getElementById("btn-mode-free"),
-    offlineModeNotice: document.getElementById("offline-mode-notice"),
     modeLabel: document.getElementById("mode-label"),
     gameHint: document.getElementById("game-hint"),
     freeDock: document.getElementById("free-dock"),
@@ -1081,10 +1080,6 @@
       els.btnModeFree.hidden = offline;
       els.btnModeFree.disabled = offline;
       els.btnModeFree.setAttribute("aria-hidden", offline ? "true" : "false");
-    }
-    if (els.offlineModeNotice) {
-      els.offlineModeNotice.classList.add("is-hidden");
-      els.offlineModeNotice.hidden = true;
     }
   }
 
