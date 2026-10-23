@@ -1083,7 +1083,8 @@
       els.btnModeFree.setAttribute("aria-hidden", offline ? "true" : "false");
     }
     if (els.offlineModeNotice) {
-      els.offlineModeNotice.classList.toggle("is-hidden", !offline);
+      els.offlineModeNotice.classList.add("is-hidden");
+      els.offlineModeNotice.hidden = true;
     }
   }
 

@@ -1,4 +1,4 @@
-const CACHE = "chicken-cat-offline-v3";
+const CACHE = "chicken-cat-offline-v4";
 
 /** Same-origin assets required for choice-mode offline play (verified on disk). */
 const PRECACHE = [
