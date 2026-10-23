@@ -17,3 +17,6 @@ offline/img
 offline/audio
 offline/fonts
 offline/js
+offline/*.zip
+.offline-zip-staging/
+offline-package/

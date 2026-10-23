@@ -20,5 +20,5 @@ services:
     name: chicken-guard-cat-offline
     runtime: static
     plan: free
-    buildCommand: npm run build:offline
+    buildCommand: npm install && npm run build:offline
     staticPublishPath: offline

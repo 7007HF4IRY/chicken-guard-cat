@@ -363,6 +363,95 @@ body.is-reaction-focus .viewport-chrome {
   box-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--shadow);
 }
 
+.offline-pwa-banner {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 9000;
+  width: 100%;
+  padding: 10px 12px calc(10px + env(safe-area-inset-top, 0));
+  padding-top: calc(10px + env(safe-area-inset-top, 0));
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.offline-pwa-banner.is-hidden {
+  display: none;
+}
+
+.offline-pwa-banner-inner {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 12px 36px 12px 12px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--cream);
+  border: var(--px) solid var(--shadow);
+  box-shadow: calc(var(--px) * 3) calc(var(--px) * 3) 0 var(--shadow);
+  pointer-events: auto;
+}
+
+.offline-pwa-banner-title {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.offline-pwa-banner-text {
+  margin: 0 0 8px;
+}
+
+.offline-pwa-banner-list {
+  margin: 0 0 10px;
+  padding-left: 1.1em;
+}
+
+.offline-pwa-banner-list li {
+  margin-bottom: 4px;
+}
+
+.offline-pwa-ios-hint {
+  margin: 0 0 10px;
+  padding: 6px 8px;
+  font-size: 11px;
+  background: var(--panel);
+  border: var(--px) dashed var(--panel-dark);
+}
+
+.offline-pwa-ios-hint.is-hidden {
+  display: none;
+}
+
+.offline-pwa-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.offline-pwa-btn {
+  flex: 1 1 auto;
+  min-width: 140px;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.offline-pwa-dismiss {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .btn-mode {
   width: 100%;
   min-height: 48px;

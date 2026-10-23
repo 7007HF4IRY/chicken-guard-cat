@@ -9,10 +9,62 @@
     <title>치킨 사수 냥이 (오프라인)</title>
     <meta name="theme-color" content="#5a4030" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="치킨냥이·오프" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="img/icons/chicken.png" />
     <link rel="stylesheet" href="css/pixel.css" />
   </head>
   <body>
+    <aside
+      id="offline-pwa-banner"
+      class="offline-pwa-banner is-hidden"
+      role="region"
+      aria-label="오프라인 설치 안내"
+    >
+      <div class="offline-pwa-banner-inner">
+        <p class="offline-pwa-banner-title">✈️ 비행기 모드용 — 진짜 오프라인</p>
+        <p class="offline-pwa-banner-text">
+          URL만으로는 <strong>처음부터</strong> 오프라인 접속이 불가능합니다. 아래 중 하나를
+          미리 준비하세요.
+        </p>
+        <ul class="offline-pwa-banner-list">
+          <li>
+            <strong>홈 화면에 추가</strong> — 한 번 설치 후 아이콘으로 오프라인 실행 (PWA)
+          </li>
+          <li>
+            <strong>ZIP 다운로드</strong> — Wi‑Fi에서 받아 두면 인터넷 없이 영구 플레이
+          </li>
+        </ul>
+        <p id="offline-pwa-ios-hint" class="offline-pwa-ios-hint is-hidden">
+          iPhone/iPad: Safari <strong>공유</strong> → <strong>홈 화면에 추가</strong>
+        </p>
+        <div class="offline-pwa-banner-actions">
+          <button
+            type="button"
+            id="btn-pwa-install"
+            class="btn btn-secondary offline-pwa-btn is-hidden"
+          >
+            홈 화면에 추가
+          </button>
+          <a
+            class="btn offline-pwa-btn"
+            href="chicken-guard-cat-offline.zip"
+            download="chicken-guard-cat-offline.zip"
+          >
+            ZIP 다운로드
+          </a>
+        </div>
+        <button
+          type="button"
+          id="btn-pwa-banner-dismiss"
+          class="offline-pwa-dismiss"
+          aria-label="안내 닫기"
+        >
+          ×
+        </button>
+      </div>
+    </aside>
     <div id="app" class="game-viewport">
       <div class="viewport-chrome" aria-hidden="false">
         <p class="start-credit">Made by 20318 최은서</p>
@@ -436,6 +488,63 @@
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         navigator.serviceWorker.register("./service-worker.js", { scope: "./" });
       }
+    </script>
+    <script>
+      (function () {
+        const banner = document.getElementById("offline-pwa-banner");
+        const btnInstall = document.getElementById("btn-pwa-install");
+        const btnDismiss = document.getElementById("btn-pwa-banner-dismiss");
+        const iosHint = document.getElementById("offline-pwa-ios-hint");
+        if (!banner) return;
+
+        const dismissedKey = "chicken-cat-offline-banner-dismiss";
+        let deferredPrompt = null;
+
+        function showBanner() {
+          if (sessionStorage.getItem(dismissedKey) === "1") return;
+          banner.classList.remove("is-hidden");
+        }
+
+        function isIosSafari() {
+          const ua = navigator.userAgent || "";
+          const ios = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+          return ios;
+        }
+
+        if (isIosSafari() && iosHint) {
+          iosHint.classList.remove("is-hidden");
+        }
+
+        window.addEventListener("beforeinstallprompt", (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+          if (btnInstall) btnInstall.classList.remove("is-hidden");
+          showBanner();
+        });
+
+        if (btnInstall) {
+          btnInstall.addEventListener("click", async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            btnInstall.classList.add("is-hidden");
+          });
+        }
+
+        if (btnDismiss) {
+          btnDismiss.addEventListener("click", () => {
+            sessionStorage.setItem(dismissedKey, "1");
+            banner.classList.add("is-hidden");
+          });
+        }
+
+        function updateOnlineBanner() {
+          if (navigator.onLine) showBanner();
+        }
+        window.addEventListener("online", updateOnlineBanner);
+        updateOnlineBanner();
+      })();
     </script>
     <script>window.CHICKEN_CAT_OFFLINE_SITE = true;</script>
     <script src="js/choices-data.js"></script>
