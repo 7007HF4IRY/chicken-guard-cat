@@ -5,7 +5,8 @@
   "description": "치킨 사수 냥이 — 부스 미니게임",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "build:offline": "node scripts/build-offline.js"
   },
   "engines": {
     "node": ">=18"

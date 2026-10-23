@@ -11,3 +11,9 @@ audio/_bgm_loop.wav
 audio/_generate_bgm.py
 img/cats/
 scripts/__pycache__/
+# build-offline.js symlinks (Render 빌드 시 생성)
+offline/css
+offline/img
+offline/audio
+offline/fonts
+offline/js

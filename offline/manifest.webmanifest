@@ -1,0 +1,19 @@
+{
+  "name": "치킨 사수 냥이 (오프라인)",
+  "short_name": "치킨냥이·오프",
+  "description": "선택지 모드 전용 — 네트워크 없이 플레이",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#8ec8e8",
+  "theme_color": "#5a4030",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "img/icons/chicken.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

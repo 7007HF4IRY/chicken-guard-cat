@@ -1,4 +1,7 @@
 (function () {
+  const OFFLINE_DEDICATED_SITE =
+    typeof window !== "undefined" && window.CHICKEN_CAT_OFFLINE_SITE === true;
+
   const MAX_TURNS = 5;
   const INITIAL = { favor: 20, suspicion: 40 };
 
@@ -1067,11 +1070,12 @@
   }
 
   function isNetworkOffline() {
+    if (OFFLINE_DEDICATED_SITE) return true;
     return typeof navigator !== "undefined" && navigator.onLine === false;
   }
 
   function applyOfflineShellUi() {
-    const offline = isNetworkOffline();
+    const offline = isNetworkOffline() || OFFLINE_DEDICATED_SITE;
     if (els.btnModeFree) {
       els.btnModeFree.classList.toggle("is-hidden", offline);
       els.btnModeFree.hidden = offline;
@@ -1133,6 +1137,10 @@
   }
 
   function showModeScreen() {
+    if (OFFLINE_DEDICATED_SITE) {
+      startGame("choice");
+      return;
+    }
     applyOfflineShellUi();
     els.startScreen.classList.add("is-hidden");
     els.modeScreen.classList.remove("is-hidden");
@@ -1282,6 +1290,7 @@
   const CHAT_FETCH_MS = 12000;
 
   function isOfflineForChat() {
+    if (OFFLINE_DEDICATED_SITE) return true;
     return typeof navigator !== "undefined" && navigator.onLine === false;
   }
 

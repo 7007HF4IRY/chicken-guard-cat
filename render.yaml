@@ -1,4 +1,5 @@
 # Render Dashboard → New → Blueprint → 이 repo 연결 시 자동 생성
+# 기존 Blueprint에 오프라인 static 서비스가 없으면 Dashboard에서 Blueprint Sync(또는 수동 Static Site 추가) 필요
 services:
   - type: web
     name: chicken-guard-cat
@@ -14,3 +15,10 @@ services:
         value: inworld/chicken_cat
       - key: INWORLD_API_KEY
         sync: false
+
+  - type: web
+    name: chicken-guard-cat-offline
+    runtime: static
+    plan: free
+    buildCommand: npm run build:offline
+    staticPublishPath: offline
