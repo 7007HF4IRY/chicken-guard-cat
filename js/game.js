@@ -1183,7 +1183,10 @@
       syncChoiceTurnDeckForRound();
     }
     const skipChoiceIntro = Boolean(options.skipChoiceIntro);
+    els.startScreen.classList.add("is-hidden");
+    els.startScreen.setAttribute("aria-hidden", "true");
     els.modeScreen.classList.add("is-hidden");
+    els.modeScreen.setAttribute("aria-hidden", "true");
     els.gameShell.classList.remove("is-hidden");
     els.gameShell.setAttribute("aria-hidden", "false");
     setModeUi(mode);
